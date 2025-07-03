@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>FUOYE CGPA Calculator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <!-- jsPDF CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body { background-color: #f4f7f5; color: #222; padding:0; margin:0; }
+    .fuoye-log {
+      position: fixed;
+      top: 0;
+      background-color: white;
+      margin-bottom: 400px;
+      left: 0;
+      
+  }
+ .big-image {
+      display: flex;
+      margin-top: 100px;
+      align-items: center;
+      margin-bottom: 20px;
+      justify-content: center;
+    }
+    .calc-image {
+      float: left;
+      margin-left: 0;
+    }
+    .container {
+      max-width: 850px;
+      margin: auto;
+      margin-left:20px;
+      margin-right:20px;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 128, 0, 0.1);
+    }
+    .fade-in { animation: fadeIn 1s ease-in;}
+    .fade-left { animation: fadeLeft 1s ease-out; }
+    .fade-right { animation: fadeRight 1s ease-out forwards; }
+    .fade-out { animation: fadeOut 0.8s ease-out forwards; }
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      color: #006400;
+      margin-bottom: 10px;
+    }
+    .subtitle {
+      text-align: center;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 30px;
+      font-size: 1.2rem;
+    }
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .actions button {
+      padding: 10px 20px;
+      border: none;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+    .add-btn { background-color: #a855f7; color: white; }
+    .add-btn:hover { background-color: #581c87; }
+    .delete-btn { background-color: #e63946; color: white; }
+    .save-btn { background-color: #3b82f6; color: white; }
+    .save-btn:hover { background-color: #1e40af; }
+    .load-btn { background-color: #f59e0b; color: white; }
+    .load-btn:hover { background-color: #d97706; }
+    .pdf-btn { background-color: #22c55e; color: white; }
+    .pdf-btn:hover { background-color: #15803d; }
+    .compare-btn { background-color: #8b5cf6; color: white; }
+    .compare-btn:hover { background-color: #6d28d9; }
+    .grades-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    .grades-table th,
+    .grades-table td {
+      border: 1px solid #d8b4fe;
+      padding: 12px;
+      text-align: center;
+    }
+    .grades-table input,
+    .grades-table select {
+      width: 90%;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .calculate-btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      font-size: 1rem;
+      background-color: #9333ea;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin-bottom: 15px;
+    }
+    .calculate-btn:hover { background-color: #d8b4fe; }
+    .result {
+      margin-top: 15px;
+      background: #e0f8ea;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #014f01;
+    }
+    .footer-note {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+    @media (max-width: 600px) {
+      .actions { flex-direction: column; gap: 10px; }
+    }
+    .semester {
+      margin-bottom: 40px;
+      border-bottom: 2px dashed #ccc;
+      padding-bottom: 30px;
+    }
+    .semester-title {
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #004d00;
+    }
+    .add-semester-btn {
+      background-color: #10b981;
+      color: white;
+      padding: 10px 20px;
+      font-weight: bold;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      margin: 20px auto;
+      display: block;
+    }
+    .cgpa-result {
+      background-color: #ccfbf1;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: bold;
+      color: #065f46;
+      font-size: 1.2rem;
+      margin-top: 20px;
+    }
+    footer {
+      margin-top: 40px;
+      background: #181818;
+      padding: 30px 20px;
+      text-align: center;
+      width: 100%;
+    }
+    footer h2 {
+      font-size: 1.5rem;
+      color: #00ff99;
+      margin-bottom: 10px;
+    }
+    footer p {
+      font-size: 0.9rem;
+      color: #bbb;
+      margin-bottom: 15px;
+    }
+    .footer-links a {
+      color: #888;
+      text-decoration: none;
+      margin: 0 10px;
+      font-size: 0.9rem;
+      transition: color 0.3s;
+    }
+    .footer-links a:hover { color: #00ff99; }
+    .footer-bottom {
+      font-size: 0.8rem;
+      color: #666;
+    }
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 25px;
+    }
+    .social-icons a {
+      color: white;
+      font-size: 24px;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+    .social-icons a.facebook:hover { color: #3b5998; transform: scale(1.2); }
+    .social-icons a.x:hover { color: #ccc; transform: scale(1.2); }
+    .social-icons a.tiktok:hover { color: #ff0050; transform: scale(1.2); }
+    .social-icons a.whatsapp:hover { color: #25d366; transform: scale(1.2); }
+    .social-icons a.youtube:hover { color: #ff0000; transform: scale(1.2); }
+  </style>
+</head>
+<body>
+  <div class="fuoye-log" style="pointer-events: none; user-select: none;">
+    <img src="index.PNG" style="pointer-events: none; user-select: none;" width="100%">
+  </div>
+  <br><br><br><br><br><br><br><br><br><br>
+  <div class="container">
+    <div class="calc-image">
+      <img src="calc.WEBP" style="pointer-events: none; user-select: none;" width="50%">
+    </div>
+    <div class="big-image">
+      <img src="big.WEBP" style="pointer-events: none; user-select: none;" width="70%">
+    </div>
+    <div id="semesters-container"></div>
+    <button class="add-semester-btn" onclick="addSemester()" data-aos="fade-in">+ Add New Semester</button>
+    <div class="actions">
+      <button class="save-btn" onclick="saveAllResults()">Save All Results</button>
+      <button class="load-btn" onclick="loadResults()">Load Results</button>
+      <button class="pdf-btn" onclick="exportToPDF()">Download PDF</button>
+    </div>
+    <div class="cgpa-result" id="cgpaResult" style="display:none;"></div>
+    <p class="footer-note fade-left">Grading scale: A = 5, B = 4, C = 3, D = 2, E = 1, F = 0</p>
+  </div>
+  <footer>
+    <h2>calcCGPA</h2>
+    <p>Clean. Fast. Just the way you like it.</p>
+    <div class="footer-links">
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#">Services</a>
+      <a href="09048842049">Contact</a>
+    </div>
+    <div class="footer-bottom">
+      © 2025 SimpleSite. All rights reserved.<br>
+      Built by Alonge Israel
+    </div>
+  </footer>
+  <div class="footer" style="background:black;">
+    <div class="social-icons">
+      <a href="" target="_blank" class="facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="" target="_blank" class="x"><i class="fab fa-x-twitter"></i></a>
+      <a href="" target="_blank" class="tiktok"><i class="fab fa-tiktok"></i></a>
+      <a href="https://wa.me/2349048842049" target="_blank" class="whatsapp"><i class="fab fa-whatsapp"></i></a>
+      <a href="" target="_blank" class="youtube"><i class="fab fa-youtube"></i></a>
+    </div>
+  </div>
+
+  <script>
+    let semesterCount = 0;
+
+    function addSemester() {
+      semesterCount++;
+      const container = document.getElementById('semesters-container');
+      const semesterDiv = document.createElement('div');
+      semesterDiv.className = 'semester';
+      semesterDiv.id = `semester-${semesterCount}`;
+      semesterDiv.innerHTML = `
+        <div class="semester-title">Semester ${semesterCount}</div>
+        <div class="actions">
+          <button class="add-btn" style="margin-bottom:30px;" onclick="addRow(${semesterCount})">+ Add Course</button>
+          <button class="delete-btn" style="margin-bottom:30px;" onclick="deleteRow(${semesterCount})">Delete Last</button>
+          <button class="save-btn" style="margin-bottom:30px;" onclick="saveResults(${semesterCount})">Save Semester</button>
+          <button class="compare-btn" onclick="compareWithLastSemester(${semesterCount})">Compare with Last Semester</button>
+        </div>
+        <table class="grades-table" style="margin-bottom:100px; margin-top:30px;" id="gradesTable-${semesterCount}">
+          <thead>
+            <tr>
+              <th>Course</th>
+              <th>Units</th>
+              <th>Grade</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="text" placeholder="e.g. MTH101" /></td>
+              <td><input type="tel" inputmode="numeric" pattern="[0-9]*" placeholder="e.g. 3" /></td>
+              <td>
+                <select>
+                  <option value="5">A</option>
+                  <option value="4">B</option>
+                  <option value="3">C</option>
+                  <option value="2">D</option>
+                  <option value="1">E</option>
+                  <option value="0">F</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="calculate-btn" onclick="calculateGPA(${semesterCount})">Calculate GPA for Semester ${semesterCount}</button>
+        <div class="result" id="result-${semesterCount}" style="display: none;"></div>
+      `;
+      container.appendChild(semesterDiv);
+    }
+
+    function addRow(semesterId) {
+      const table = document.getElementById(`gradesTable-${semesterId}`).getElementsByTagName('tbody')[0];
+      const newRow = table.insertRow();
+      newRow.innerHTML = `
+        <td><input type="text" placeholder="e.g. CHM101" /></td>
+        <td><input type="tel" inputmode="numeric" pattern="[0-9]*" placeholder="e.g. 3" /></td>
+        <td>
+          <select>
+            <option value="5">A</option>
+            <option value="4">B</option>
+            <option value="3">C</option>
+            <option value="2">D</option>
+            <option value="1">E</option>
+            <option value="0">F</option>
+          </select>
+        </td>
+      `;
+    }
+
+    function deleteRow(semesterId) {
+      const table = document.getElementById(`gradesTable-${semesterId}`).getElementsByTagName('tbody')[0];
+      if (table.rows.length > 1) {
+        table.deleteRow(table.rows.length - 1);
+      }
+    }
+
+    function calculateGPA(semesterId) {
+      const table = document.getElementById(`gradesTable-${semesterId}`).getElementsByTagName('tbody')[0];
+      let totalUnits = 0;
+      let totalPoints = 0;
+
+      for (let i = 0; i < table.rows.length; i++) {
+        const units = parseFloat(table.rows[i].cells[1].children[0].value);
+        const gradePoint = parseFloat(table.rows[i].cells[2].children[0].value);
+
+        if (isNaN(units) || units < 0 || isNaN(gradePoint)) {
+          alert("Please enter valid numeric units for all courses in Semester " + semesterId);
+          return;
+        }
+        totalUnits += units;
+        totalPoints += units * gradePoint;
+      }
+
+      const resultBox = document.getElementById(`result-${semesterId}`);
+      if (totalUnits === 0) {
+        resultBox.innerText = "Please enter valid unit values.";
+        resultBox.style.display = "block";
+        return;
+      }
+
+      const gpa = totalPoints / totalUnits;
+      resultBox.innerHTML = `
+        Total Units: <b>${totalUnits}</b><br/>
+        Total Points: <b>${totalPoints}</b><br/>
+        GPA: <b>${gpa.toFixed(2)}</b>
+      `;
+      resultBox.style.display = "block";
+
+      // Store GPA for comparison
+      localStorage.setItem(`semester-${semesterId}-gpa`, gpa.toFixed(2));
+      calculateCGPA();
+    }
+
+    function calculateCGPA() {
+      let totalAllUnits = 0;
+      let totalAllPoints = 0;
+
+      for (let sem = 1; sem <= semesterCount; sem++) {
+        const table = document.getElementById(`gradesTable-${sem}`);
+        if (!table) continue;
+
+        const tbody = table.getElementsByTagName('tbody')[0];
+        for (let i = 0; i < tbody.rows.length; i++) {
+          const units = parseFloat(tbody.rows[i].cells[1].children[0].value);
+          const gradePoint = parseFloat(tbody.rows[i].cells[2].children[0].value);
+
+          if (!isNaN(units) && !isNaN(gradePoint)) {
+            totalAllUnits += units;
+            totalAllPoints += units * gradePoint;
+          }
+        }
+      }
+
+      const cgpaBox = document.getElementById("cgpaResult");
+      if (totalAllUnits === 0) {
+        cgpaBox.style.display = "none";
+        return;
+      }
+
+      const cgpa = totalAllPoints / totalAllUnits;
+      cgpaBox.innerHTML = `
+        Total Units (All Semesters): <b>${totalAllUnits}</b><br/>
+        Total Points (All Semesters): <b>${totalAllPoints}</b><br/>
+        <hr style="margin: 10px 0;" />
+        CGPA: <b>${cgpa.toFixed(2)}</b>
+      `;
+      cgpaBox.style.display = "block";
+    }
+
+    function saveResults(semesterId) {
+      const table = document.getElementById(`gradesTable-${semesterId}`).getElementsByTagName('tbody')[0];
+      const courses = [];
+      for (let i = 0; i < table.rows.length; i++) {
+        const course = table.rows[i].cells[0].children[0].value;
+        const units = table.rows[i].cells[1].children[0].value;
+        const grade = table.rows[i].cells[2].children[0].value;
+        if (course && units && !isNaN(parseFloat(units))) {
+          courses.push({ course, units: parseFloat(units), grade: parseFloat(grade) });
+        }
+      }
+      if (courses.length === 0) {
+        alert("No valid courses to save for Semester " + semesterId);
+        return;
+      }
+      localStorage.setItem(`semester-${semesterId}-courses`, JSON.stringify(courses));
+      const resultBox = document.getElementById(`result-${semesterId}`);
+      resultBox.innerText = "Results saved successfully!";
+      resultBox.style.display = "block";
+      setTimeout(() => calculateGPA(semesterId), 2000); // Restore GPA display
+    }
+
+    function saveAllResults() {
+      for (let sem = 1; sem <= semesterCount; sem++) {
+        if (document.getElementById(`gradesTable-${sem}`)) {
+          saveResults(sem);
+        }
+      }
+      alert("All semester results saved!");
+    }
+
+    function loadResults() {
+      for (let sem = 1; sem <= semesterCount; sem++) {
+        const courses = JSON.parse(localStorage.getItem(`semester-${sem}-courses`) || '[]');
+        if (courses.length > 0 && document.getElementById(`gradesTable-${sem}`)) {
+          const table = document.getElementById(`gradesTable-${sem}`).getElementsByTagName('tbody')[0];
+          table.innerHTML = '';
+          courses.forEach(course => {
+            const newRow = table.insertRow();
+            newRow.innerHTML = `
+              <td><input type="text" value="${course.course}" /></td>
+              <td><input type="tel" inputmode="numeric" pattern="[0-9]*" value="${course.units}" /></td>
+              <td>
+                <select>
+                  <option value="5" ${course.grade === 5 ? 'selected' : ''}>A</option>
+                  <option value="4" ${course.grade === 4 ? 'selected' : ''}>B</option>
+                  <option value="3" ${course.grade === 3 ? 'selected' : ''}>C</option>
+                  <option value="2" ${course.grade === 2 ? 'selected' : ''}>D</option>
+                  <option value="1" ${course.grade === 1 ? 'selected' : ''}>E</option>
+                  <option value="0" ${course.grade === 0 ? 'selected' : ''}>F</option>
+                </select>
+              </td>
+            `;
+          });
+          calculateGPA(sem);
+        }
+      }
+    }
+
+    function compareWithLastSemester(semesterId) {
+      const currentGPA = parseFloat(localStorage.getItem(`semester-${semesterId}-gpa`) || '0');
+      const previousSemesterId = semesterId - 1;
+      const previousGPA = parseFloat(localStorage.getItem(`semester-${previousSemesterId}-gpa`) || '0');
+      const resultBox = document.getElementById(`result-${semesterId}`);
+
+      if (previousGPA === 0 && previousSemesterId > 0) {
+        resultBox.innerText = `No data available for Semester ${previousSemesterId} to compare.`;
+      } else if (currentGPA === 0) {
+        resultBox.innerText = "Please calculate GPA for this semester first.";
+      } else {
+        const difference = (currentGPA - previousGPA).toFixed(2);
+        const message = difference > 0 ? "improved" : difference < 0 ? "decreased" : "remained the same";
+        resultBox.innerHTML = `
+          Semester ${semesterId} GPA: <b>${currentGPA}</b><br/>
+          Semester ${previousSemesterId} GPA: <b>${previousGPA}</b><br/>
+          Difference: <b>${difference}</b> (${message})
+        `;
+      }
+      resultBox.style.display = "block";
+      setTimeout(() => calculateGPA(semesterId), 3000); // Restore GPA display
+    }
+
+    function exportToPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.setFontSize(16);
+      doc.text("FUOYE CGPA Calculator Results", 20, 20);
+      doc.setFontSize(12);
+      let y = 30;
+
+      for (let sem = 1; sem <= semesterCount; sem++) {
+        const table = document.getElementById(`gradesTable-${sem}`);
+        if (!table) continue;
+
+        doc.text(`Semester ${sem}`, 20, y);
+        y += 10;
+
+        const tbody = table.getElementsByTagName('tbody')[0];
+        let semesterData = [['Course', 'Units', 'Grade', 'Points']];
+        let totalUnits = 0;
+        let totalPoints = 0;
+
+        for (let i = 0; i < tbody.rows.length; i++) {
+          const course = tbody.rows[i].cells[0].children[0].value || 'N/A';
+          const units = parseFloat(tbody.rows[i].cells[1].children[0].value) || 0;
+          const gradePoint = parseFloat(tbody.rows[i].cells[2].children[0].value) || 0;
+          const grade = ['F', 'E', 'D', 'C', 'B', 'A'][gradePoint] || 'N/A';
+          if (!isNaN(units) && !isNaN(gradePoint)) {
+            totalUnits += units;
+            totalPoints += units * gradePoint;
+          }
+          semesterData.push([course, units, grade, (units * gradePoint).toFixed(2)]);
+        }
+
+        doc.autoTable({
+          startY: y,
+          head: [semesterData[0]],
+          body: semesterData.slice(1),
+          theme: 'grid',
+          styles: { fontSize: 10 },
+        });
+        y = doc.lastAutoTable.finalY + 10;
+
+        const gpa = totalUnits > 0 ? (totalPoints / totalUnits).toFixed(2) : 'N/A';
+        doc.text(`Semester ${sem} GPA: ${gpa}`, 20, y);
+        y += 10;
+      }
+
+      const cgpaBox = document.getElementById("cgpaResult");
+      if (cgpaBox.style.display !== "none") {
+        doc.text(cgpaBox.innerText, 20, y);
+      }
+
+      doc.save(`FUOYE_CGPA_${new Date().toISOString().split('T')[0]}.pdf`);
+    }
+
+    window.onload = () => {
+      addSemester();
+      if (localStorage.getItem('semester-1-courses')) {
+        loadResults();
+      }
+    };
+  </script>
+</body>
+</html>
+ 
