@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>FUOYE CGPA Calculator</title>
-  
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+ <-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-KMBS75WCHW"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -13,8 +14,9 @@
 
   gtag('config', 'G-KMBS75WCHW');
 </script>
-
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
   <!-- Font Awesome CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <!-- jsPDF CDN -->
@@ -30,6 +32,160 @@
       left: 0;
       
   }
+
+
+h2 {
+
+padding-top:50px;}
+    .social-icons a {
+      color: white;
+      font-size: 24px;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+
+    .scale { 
+     font-family:'poppins';
+     color:#a855f7;
+     font-weight:900;
+     font-size:25px;
+     margin-top:20px;
+     display:flex;
+     align-item:center;
+      justify-content:center;
+
+}
+
+   .head-text {
+padding-left:10px;
+padding-right:10px;
+font-family:'poppins';
+text-align:center;
+background:#E6E6FA;
+margin-bottom:40px;
+margin-top:0;
+
+}
+
+    .hamburger {
+      position: fixed;
+      top: 100px;
+      left: 25px;
+      width: 40px;
+      height: 30px;
+      z-index: 1001;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .hamburger span {
+      height: 4px;
+      background: #a855f7;
+      border-radius: 10px;
+      transition: all 0.4s ease;
+      box-shadow: 0 0 8px #a855f7;
+    }
+
+
+    .hamburger span:nth-child(1),
+    .hamburger span:nth-child(2),
+    .hamburger span:nth-child(3) {
+      width: 100%;
+    }
+
+    /* Transform to X */
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(7px, 7px);
+      width: 100%;
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -7px);
+      width: 100%;
+    }
+
+    /* Sidebar Menu */
+    .sidebar {
+      position: fixed;
+      top: 0;
+     
+      right: -100%;
+      border-radius:20px 0 0 20px;
+      width: 75%;
+      height: 60vh;
+      background:transparent;
+      backdrop-filter: blur(8px);
+      box-shadow: -5px 0 30px #a855f7;
+      z-index: 1000;
+      transition: 0.6s ease;
+      display: flex;
+      flex-direction: column;
+      padding: 80px 30px;
+      border-left: 2px solid #a855f7;
+    }
+  .about {
+margin-top:40px;
+background:#E6E6FA;
+padding-left:10px;
+padding-right:10px;
+
+}
+
+    .sidebar.active {
+      right: 0;
+    }
+
+    .sidebar a {
+      color:#a855f7;
+      text-decoration: none;
+      font-size: 20px;
+      margin: 20px 0;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    .sidebar a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -5px;
+      height: 2px;
+      width: 0;
+      background: #a855f7;
+      transition: width 0.3s ease;
+      box-shadow: 0 0 10px #a855f7;
+    }
+
+    .sidebar a:hover::after {
+      width: 100%;
+    }
+
+    .sidebar a:hover {
+      color: #a855f7;
+    }
+
+    /* Glitch / Glow Animation */
+    @keyframes pulse {
+      0%, 100% {
+        box-shadow: 0 0 10px cyan, 0 0 20px blue;
+      }
+      50% {
+        box-shadow: 0 0 5px cyan, 0 0 10px cyan;
+      }
+    }
+
+    .hamburger span {
+      animation: pulse 1.5s infinite;
+    }
+
+    .sidebar a {
+      animation: pulse 2.5s infinite;
+    }
  .big-image {
       display: flex;
       margin-top: 100px;
@@ -179,6 +335,114 @@
       font-size: 1.2rem;
       margin-top: 20px;
     }
+.about-developer {
+  max-width: 1000px;
+  margin: 80px auto;
+  margin-left:20px;
+  margin-right:20px;
+  padding: 40px;
+  background: linear-gradient(135deg, #f5edff, #efe3ff);
+  border-radius: 20px;
+  box-shadow: 0 0 40px rgba(150, 100, 255, 0.2);
+  font-family: 'Segoe UI', sans-serif;
+  color: #4b0082;
+  animation: fadeIn 1.2s ease-out ;
+}
+
+.about-developer h2 {
+  font-size: 36px;
+  margin-bottom: 20px;
+
+  color: #7a00cc;
+  animation: slideUp 1s ease-out;
+}
+
+.about-developer p {
+  font-size: 18px;
+  line-height: 1.7;
+  margin-bottom: 20px;
+  color: blue;
+}
+
+.about-developer span,
+.about-developer strong {
+  color: #6b00b3;
+  font-weight: bold;
+}
+
+.skills h3,
+.connect h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #6b00b3;
+}
+
+.skills ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+}
+
+.skills ul li {
+  background-color: #c09eff;
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 30px;
+  font-size: 16px;
+  transition: transform 0.3s ease;
+}
+
+.skills ul li:hover {
+  transform: scale(1.05);
+}
+
+.connect .links {
+  margin-top: 10px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.connect a {
+  background: #7a00cc;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-size: 16px;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.connect a:hover {
+  background: #4d0099;
+  transform: scale(1.05);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  0% { transform: translateY(40px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .skills ul {
+    justify-content: center;
+  }
+
+  .connect .links {
+    flex-direction: column;
+    align-items: center;
+  }
+}
     footer {
       margin-top: 40px;
       background: #181818;
@@ -224,13 +488,44 @@
     .social-icons a.tiktok:hover { color: #ff0050; transform: scale(1.2); }
     .social-icons a.whatsapp:hover { color: #25d366; transform: scale(1.2); }
     .social-icons a.youtube:hover { color: #ff0000; transform: scale(1.2); }
+
+.dev {
+display:flex;
+flex-direction:row;
+}
+
+.skil {
+display:flex;
+gap:2px;
+flex-direction:row;
+}
   </style>
 </head>
 <body>
   <div class="fuoye-log" style="pointer-events: none; user-select: none;">
     <img src="index.PNG" style="pointer-events: none; user-select: none;" width="100%">
   </div>
-  <br><br><br><br><br><br><br><br><br><br>
+  <br><br><br><br><br><br><br>
+
+
+<div style="padding:10px; margin-top:20px;" class="head-text"><p>The <span style="color:red">new version</span> is coming with huge updates. If you have any feedback or suggestions, please  <a href="https://wa.me/2349048842049" target="_blank" class="whatsapp">let us know</a></p></div>
+
+<div class="body">
+  <div class="hamburger" id="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <nav class="sidebar" id="sidebar">
+    <a href="#">🏠 Home</a>
+    <a href="#">💡 Features</a>
+    <a href="#project">🚀 Projects</a>
+    <a href="mailto:israelalonge2024@gmail.com">📞 Contact</a>
+ 
+  </nav>
+</div>
+ <br><br><br>
   <div class="container">
     <div class="calc-image">
       <img src="calc.WEBP" style="pointer-events: none; user-select: none;" width="50%">
@@ -246,10 +541,101 @@
       <button class="pdf-btn" onclick="exportToPDF()">Download PDF</button>
     </div>
     <div class="cgpa-result" id="cgpaResult" style="display:none;"></div>
-    <p class="footer-note fade-left">Grading scale: A = 5, B = 4, C = 3, D = 2, E = 1, F = 0</p>
+ 
+
+
+
+       <table class="grades-table" style="margin-bottom:100px; color:blue; margin-top:30px;" id="gradesTable-${semesterCount}">
+
+
+<div class="scale">Grading scale</div>
+          <thead>
+            <tr>
+              <th>Grade</th>
+              <th>Point</th>
+            </tr>
+          </thead>
+          <tbody>
+      <tr>
+              <td>A</td>
+              <td>5</td>
+               </tr>
+             <tr>
+              <td>B</td>
+              <td>4</td>
+               </tr>
+             <tr>
+              <td>C</td>
+              <td>3</td>
+               </tr>
+             <tr>
+              <td>D</td>
+              <td>2</td>
+               </tr>
+  <tr>
+              <td>E</td>
+              <td>1</td>
+               </tr>
+  <tr>
+              <td>F</td>
+              <td>0</td>
+               </tr>
+            </tbody>
+          </table>
   </div>
+<div style="color:blue; line-height:2;" class="about">
+<span style="color:purple; font-weight:900;"><h2>Welcome to the:</h2></span>
+<br>
+<br>
+<span style="font-weight:900; font-family:Bebas Neue; color:purple; font-size:30px;"><p>Overall GPA Calculator</p></span>
+
+Are you a student looking to calculate your Cumulative Grade Point Average (CGPA) effortlessly? Look no further! Our online CGPA Calculator is designed to provide you with quick and accurate results, saving your time and effort.
+<br><br><br>
+<br>
+Whether you're a current student tracking your academic progress or planning how much grades you need for future semesters, our Simple CGPA calculator is here to simplify the process for you. If you want to calculate CGPA from GPA or want to convert SGPA to CGPA, our powerful tool has got you covered.
+<br><br>
+We understand that every student's academic journey is unique, and that's why our calculator is designed to accommodate individual needs. You have the flexibility to choose specific semesters for which you want to calculate your CGPA. Whether you're in the middle of your academic career or have completed all semesters, our online tool empowers you to assess your performance with ease.
+<br><br>
+If you don't know the GPA of your semesters, you can use our dedicated tool, <span style="color:#a855f7;">"Simple GPA Calculator"</span> which is designed to handle grades and course points with credit hours.
+</div>
+<section class="about-developer">
+ <div style="pointer-events: none; user-select: none;" class="dev">
+<div class="dev-img"><img src="flutter.PNG" /></div><div class="dev-text"><h2>About the Developer</h2></div>
+</div>
+  <p class="intro">
+    Hey there! I’m <span>Alonge Israel Olajide</span>, a passionate frontend developer and a 200-level student in the <strong>Biochemistry Department, FUOYE</strong>, proudly from <strong>Kogi State</strong>, Nigeria.
+  </p>
+  <p class="mission">
+    I built this CGPA calculator with love and focus to help fellow students manage, track, and predict their academic progress easily. 📊💡
+  </p>
+
+  <div style="pointer-events: none; user-select: none;" class="skills">
+   <div class="ski">
+<div><img src="laptop.PNG"></div><div><h3>My Skills</h3></div>
+</div>
+    <ul style="color:blue;">
+      <li>HTML</li>
+      <li>CSS</li>
+      <li>JavaScript</li>
+      <li>UI/UX Design</li>
+      <li>Git & GitHub</li>
+      <li>Tailwind CSS</li>
+      <li>Python (learning)</li>
+    </ul>
+  </div>
+
+  <div class="connect">
+    <h3>🔗 Connect With Me</h3>
+    <p>Want to collaborate or support this project? Reach out here:</p>
+    <div class="links">
+      <a href="mailto:israelalonge2024@gmail.com">Email</a>
+      <a href="https://github.com/israelalonge2024-github" target="_blank">GitHub</a>
+      <a href="https://twitter.com/your-handle" target="_blank">Twitter</a>
+    </div>
+  </div>
+</section>
   <footer>
-    <h2>calcCGPA</h2>
+    <h2>fuoye cgpa calculation</h2>
     <p>Clean. Fast. Just the way you like it.</p>
     <div class="footer-links">
       <a href="#">Home</a>
@@ -258,7 +644,7 @@
       <a href="09048842049">Contact</a>
     </div>
     <div class="footer-bottom">
-      © 2025 SimpleSite. All rights reserved.<br>
+      © 2025 fuoye cgpa calculator. All rights reserved.<br>
       Built by Alonge Israel
     </div>
   </footer>
@@ -273,6 +659,22 @@
   </div>
 
   <script>
+
+ const hamburger = document.getElementById("hamburger");
+    const sidebar = document.getElementById("sidebar");
+
+    hamburger.addEventListener("click", () => {
+      hamburger.classList.toggle("active");
+      sidebar.classList.toggle("active");
+    });
+
+    // Optional: Close menu on link click
+    document.querySelectorAll('.sidebar a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove("active");
+        sidebar.classList.remove("active");
+      });
+});
     let semesterCount = 0;
 
     function addSemester() {
