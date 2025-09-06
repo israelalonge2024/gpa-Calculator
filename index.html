@@ -1132,9 +1132,7 @@ themeToggle.addEventListener('click', () =>
       });
     }
     tryLoad();
-  </script>
-<script>
-	let deferredPrompt;
+	  let deferredPrompt;
 
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
@@ -1155,6 +1153,9 @@ window.addEventListener('beforeinstallprompt', (e) => {
     });
   });
 });
+  </script>
+<script>
+	
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("service-worker.js")
     .then(() => console.log("✅ Service Worker Registered"))
