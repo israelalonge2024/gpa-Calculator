@@ -1,41 +1,49 @@
-const CACHE_NAME = "cgpa-cache-v3";
+const CACHE_NAME = "cgpa-cache-v4";
+const urlsToCache = [
+  "./",
+  "./index.html",
+  "./style.css",
+  "./script.js",
+  "./manifest.json",
+  "./images/Logo.png",
+  "./images/icon-192.png",
+  "./images/icon-512.png"
+];
 
-// Install SW
+// Install SW and cache everything
 self.addEventListener("install", event => {
-  event.waitUntil(self.skipWaiting()); // activate immediately
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(cache => {
+      return cache.addAll(urlsToCache);
+    })
+  );
 });
 
-// Activate SW and clean old caches
+// Serve from cache first, fallback to network
+self.addEventListener("fetch", event => {
+  event.respondWith(
+    caches.match(event.request).then(response => {
+      return response || fetch(event.request).catch(() => {
+        // Fallback for HTML requests
+        if (event.request.mode === "navigate") {
+          return caches.match("./index.html");
+        }
+      });
+    })
+  );
+});
+
+// Delete old caches when updating
 self.addEventListener("activate", event => {
   event.waitUntil(
     caches.keys().then(keys =>
-      Promise.all(keys.map(key => {
-        if (key !== CACHE_NAME) return caches.delete(key);
-      }))
-    )
-  );
-  self.clients.claim();
-});
-
-// Intercept requests
-self.addEventListener("fetch", event => {
-  event.respondWith(
-    caches.match(event.request).then(cachedResponse => {
-      if (cachedResponse) return cachedResponse;
-
-      return fetch(event.request)
-        .then(networkResponse => {
-          return caches.open(CACHE_NAME).then(cache => {
-            cache.put(event.request, networkResponse.clone());
-            return networkResponse;
-          });
-        })
-        .catch(() => {
-          // Optional: fallback page if offline
-          if (event.request.mode === "navigate") {
-            return caches.match("./index.html");
+      Promise.all(
+        keys.map(key => {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key);
           }
-        });
-    })
+        })
+      )
+    )
   );
 });
