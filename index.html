@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>FUOYE CGPA Calculator</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
- <!-- Google tag (gtag.js) -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>CGPA Pro — Multi-Semester</title>
+<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-KMBS75WCHW"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -14,297 +13,105 @@
 
   gtag('config', 'G-KMBS75WCHW');
 </script>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#008000">
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-  <!-- Font Awesome CDN -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <!-- jsPDF CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-    body { background-color: #f4f7f5; color: #222; padding:0; margin:0; }
-    .fuoye-log {
-      position: fixed;
-      top: 0;
-      background-color: white;
-      margin-bottom: 400px;
-      left: 0;
-      
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<!-- AOS (optional for subtle entrances) -->
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"/>
+
+<style>
+  :root{
+    /* THEME TOKENS (Dark by default) */
+    --bg-1:#0f172a;
+    --bg-2:#111827;
+    --card:rgba(255,255,255,0.06);
+    --muted: #cbd5e1;
+    --text: #ffffff;
+    --line: rgba(255,255,255,0.12);
+    --field: rgba(255,255,255,0.10);
+    --field-focus: rgba(255,255,255,0.18);
+    --shadow: 0 10px 35px rgba(0,0,0,.55);
+    --brand-grad: linear-gradient(135deg,#38bdf8,#6366f1,#a855f7);
+    --accent-blue:#38bdf8;
+    --accent-red:#f43f5e;
+    --accent-green:#22c55e;
+    --accent-purple:#a855f7;
+  }
+  .light{
+    --bg-1:#eef2ff;
+    --bg-2:#ffffff;
+    --card:rgba(15,23,42,0.05);
+    --muted:#334155;
+    --text:#0f172a;
+    --line: rgba(15,23,42,0.12);
+    --field: rgba(15,23,42,0.06);
+    --field-focus: rgba(15,23,42,0.12);
+    --shadow: 0 10px 30px rgba(15,23,42,.12);
   }
 
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    background: radial-gradient(1200px 600px at 20% -10%, #1e293b33, transparent 70%),
+                radial-gradient(900px 500px at 100% 0%, #0ea5e933, transparent 60%),
+                linear-gradient(135deg,var(--bg-1),var(--bg-2));
+    color:var(--text);
+  }
 
-    .stats-section {
-      background:white;
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
-      display: flex;
-      flex-wrap: wrap;
-      align-items:center;
-      flex-direction: row;
-      justify-content: center;
-      gap: 40px;
-      margin-left:30px;
-       margin-right:30px;
-      max-width: 700px;
-    animation: fadeIn 1s ease-in-out;
-    }
-
-    .stat-box {
-      text-align: center;
-      flex: 1 1 200px;
-    }
-
-    .stat-number {
-      font-size: 3rem;
-      font-weight: bold;
-      color: #22c55e;
-    }
-
-    .stat-label {
-      margin-top: 10px;
-   
-      font-size: 1rem;
-      color: #444;
-    }
-
-    @keyframes fadeIn {
-      from {opacity: 0; transform: translateY(20px);}
-      to {opacity: 1; transform: translateY(0);}
-    }
-
-    @media (max-width: 500px) {
-      .stat-number {
-        font-size: 2.3rem;
-      }
-    }
-
-
-h2 {
-
-padding-top:50px;}
-    .social-icons a {
-      color: white;
-      font-size: 24px;
-      transition: transform 0.3s ease, color 0.3s ease;
-    }
-
-
-    .scale { 
-     font-family:'poppins';
-     color:#a855f7;
-     font-weight:900;
-     font-size:25px;
-     margin-top:20px;
-     display:flex;
-     align-item:center;
-      justify-content:center;
-
+  /* Topbar */
+  .topbar{
+    position:sticky; top:0; z-index:20;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: color-mix(in srgb, var(--bg-2) 70%, transparent);
+    border-bottom:1px solid var(--line);
+    padding:14px 22px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .brand{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700; letter-spacing:-.02em;
+    font-size:1.25rem;
+    background:linear-gradient(45deg,#38bdf8,#818cf8,#f472b6);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  }
+  .top-actions{display:flex; gap:10px; align-items:center}
+  .toggle{
+    border:none; cursor:pointer; padding:10px 14px; border-radius:999px; color:#fff;
+    background: var(--brand-grad);
+    font-weight:600; box-shadow: var(--shadow);
+    transition: transform .2s ease;
+  }
+  .toggle:active{transform:scale(.98)}
+  
+.introduction.body {
+  display: flex;                  
+  align-items: flex-start;   /* align logo + text at the top */
+  justify-content: flex-start; /* keep them close to each other on left */
+  gap: 20px;                /* space between logo and text */
+  padding: 20px;
 }
 
-   .head-text {
-padding-left:10px;
-padding-right:10px;
-font-family:'poppins';
-text-align:center;
-background:#E6E6FA;
-margin-bottom:40px;
-margin-top:0;
-
+.introduction.logo img {
+  width: 120px;  /* adjust size */
+  height: auto;
+  padding-top: 35px;
+  border-radius: 100%;
 }
 
-    .hamburger {
-      position: fixed;
-      top: 100px;
-      left: 25px;
-      width: 40px;
-      height: 30px;
-      z-index: 1001;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .hamburger span {
-      height: 4px;
-      background: #a855f7;
-      border-radius: 10px;
-      transition: all 0.4s ease;
-      box-shadow: 0 0 8px #a855f7;
-    }
-
-
-    .hamburger span:nth-child(1),
-    .hamburger span:nth-child(2),
-    .hamburger span:nth-child(3) {
-      width: 100%;
-    }
-
-    /* Transform to X */
-    .hamburger.active span:nth-child(1) {
-      transform: rotate(45deg) translate(7px, 7px);
-      width: 100%;
-    }
-
-    .hamburger.active span:nth-child(2) {
-      opacity: 0;
-    }
-
-    .hamburger.active span:nth-child(3) {
-      transform: rotate(-45deg) translate(7px, -7px);
-      width: 100%;
-    }
-
-    /* Sidebar Menu */
-    .sidebar {
-      position: fixed;
-      top: 0;
-     
-      right: -100%;
-      border-radius:20px 0 0 20px;
-      width: 75%;
-      height: 60vh;
-      background:transparent;
-      backdrop-filter: blur(8px);
-      box-shadow: -5px 0 30px #a855f7;
-      z-index: 1000;
-      transition: 0.6s ease;
-      display: flex;
-      flex-direction: column;
-      padding: 80px 30px;
-      border-left: 2px solid #a855f7;
-    }
-  .about {
-  background-image: url('purple.JPG'); /* Path to your image */
-  background-size: cover; /* Scales the image to cover the whole element */
-  background-position: center; /* Centers the image */
-  background-repeat: no-repeat; /* Prevents tiling */
-  <!--height: 400px;>/* Adjust height as needed */
-  color: white; /* For visibility on dark images */
- 
-margin-top:40px;
-<!--background:#E6E6FA;-->
-padding-left:10px;
-padding-right:10px;
-
+.introduction.text {
+  max-width: 600px; 
 }
-
-    .sidebar.active {
-      right: 0;
-    }
-
-    .sidebar a {
-      color:#a855f7;
-      text-decoration: none;
-      font-size: 20px;
-      margin: 20px 0;
-      position: relative;
-      transition: color 0.3s ease;
-    }
-
-    .sidebar a::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: -5px;
-      height: 2px;
-      width: 0;
-      background: #a855f7;
-      transition: width 0.3s ease;
-      box-shadow: 0 0 10px #a855f7;
-    }
-
-    .sidebar a:hover::after {
-      width: 100%;
-    }
-
-    .sidebar a:hover {
-      color: #a855f7;
-    }
-
-    /* Glitch / Glow Animation */
-    @keyframes pulse {
-      0%, 100% {
-        box-shadow: 0 0 10px cyan, 0 0 20px blue;
-      }
-      50% {
-        box-shadow: 0 0 5px cyan, 0 0 10px cyan;
-      }
-    }
-
-    .hamburger span {
-      animation: pulse 1.5s infinite;
-    }
-
-    .sidebar a {
-      animation: pulse 2.5s infinite;
-    }
- .big-image {
-      display: flex;
-      margin-top: 100px;
-      align-items: center;
-      margin-bottom: 20px;
-      justify-content: center;
-    }
-    .calc-image {
-      float: left;
-      margin-left: 0;
-    }
-    .container {
-      max-width: 850px;
-      margin: auto;
-      margin-left:20px;
-      margin-right:20px;
-      background: #fff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0, 128, 0, 0.1);
-    }
-    .fade-in { animation: fadeIn 1s ease-in;}
-    .fade-left { animation: fadeLeft 1s ease-out; }
-    .fade-right { animation: fadeRight 1s ease-out forwards; }
-    .fade-out { animation: fadeOut 0.8s ease-out forwards; }
-    h1 {
-      text-align: center;
-      font-size: 2rem;
-      color: #006400;
-      margin-bottom: 10px;
-    }
-    .subtitle {
-      text-align: center;
-      font-weight: 600;
-      color: #555;
-      margin-bottom: 30px;
-      font-size: 1.2rem;
-    }
-    .actions {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-    .actions button {
-      padding: 10px 20px;
-      border: none;
-      font-weight: 600;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: 0.3s ease;
-    }
-    .add-btn { background-color: #a855f7; color: white; }
-    .add-btn:hover { background-color: #581c87; }
-    .delete-btn { background-color: #e63946; color: white; }
-    .save-btn { background-color: #3b82f6; color: white; }
-    .save-btn:hover { background-color: #1e40af; }
-    .load-btn { background-color: #f59e0b; color: white; }
-    .load-btn:hover { background-color: #d97706; }
-    .pdf-btn { background-color: #22c55e; color: white; }
-    .pdf-btn:hover { background-color: #15803d; }
-    .compare-btn { background-color: #8b5cf6; color: white; }
-    .compare-btn:hover { background-color: #6d28d9; }
-    .grades-table {
+.text-fade {
+opacity:0.5;
+}
+  .grades-table {
       width: 100%;
       border-collapse: collapse;
       margin-bottom: 20px;
@@ -322,373 +129,475 @@ padding-right:10px;
       border-radius: 6px;
       border: 1px solid #ccc;
     }
-    .calculate-btn {
-      display: block;
-      width: 100%;
-      padding: 12px;
-      font-size: 1rem;
-      background-color: #9333ea;
-      color: white;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-      margin-bottom: 15px;
-    }
-    .calculate-btn:hover { background-color: #d8b4fe; }
-    .result {
-      margin-top: 15px;
-      background: #e0f8ea;
-      padding: 15px;
-      border-radius: 8px;
-      text-align: center;
-      font-size: 1.1rem;
-      font-weight: bold;
-      color: #014f01;
-    }
-    .footer-note {
-      text-align: center;
-      margin-top: 30px;
-      font-size: 0.9rem;
-      color: #666;
-    }
-    @media (max-width: 600px) {
-      .actions { flex-direction: column; gap: 10px; }
-    }
-    .semester {
-      margin-bottom: 40px;
-      border-bottom: 2px dashed #ccc;
-      padding-bottom: 30px;
-    }
-    .semester-title {
-      text-align: center;
-      font-size: 1.2rem;
-      font-weight: bold;
-      margin-bottom: 15px;
-      color: #004d00;
-    }
-    .add-semester-btn {
-      background-color: #10b981;
-      color: white;
-      padding: 10px 20px;
-      font-weight: bold;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      margin: 20px auto;
-      display: block;
-    }
-    .cgpa-result {
-      background-color: #ccfbf1;
-      padding: 20px;
-      border-radius: 10px;
-      text-align: center;
-      font-weight: bold;
-      color: #065f46;
-      font-size: 1.2rem;
-      margin-top: 20px;
-    }
-.about-developer {
-  max-width: 1000px;
-  margin: 80px auto;
-  padding: 40px;
-background-attachment: scroll;
-  background-image:url('Lappy.JPG'); /* Path to your image */
-  background-size: cover; /* Scales the image to cover the whole element */
-  background-position: center; /* Centers the image */
-  background-repeat: no-repeat; /* Prevents tiling */
- /* Adjust height as needed */
-  color: white; /* For visibility on dark images */
-  justify-content: center;
-  align-items: center;
+  /* Container & Cards */
+  .container{max-width:1100px; margin:40px auto; padding:0 16px}
+  .panel{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:22px; padding:26px; box-shadow:var(--shadow);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    margin-bottom:26px;
+  }
+  .panel h2{
+    text-align:center; margin:0 0 18px;
+    font-family:'Space Grotesk',sans-serif; letter-spacing:.2px;
+  }
 
-  /* background: linear-gradient(135deg, #f5edff, #efe3ff);
-  border-radius: 20px; */
-  box-shadow: 0 0 40px rgba(150, 100, 255, 0.2);
-  font-family: 'Segoe UI', sans-serif;
-  color: #4b0082;
-  animation: fadeIn 1.2s ease-out ;
-}
+  /* Controls */
+  .controls{
+    display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin: 6px 0 18px;
+  }
+  .btn{
+    border:none; color:#fff; padding:12px 16px; border-radius:14px; font-weight:700;
+    cursor:pointer; transition:transform .2s ease, box-shadow .3s ease;
+  }
+  .btn:hover{transform: translateY(-2px)}
+  .btn.add{ background: linear-gradient(135deg,#38bdf8,#6366f1)}
+  .btn.del{ background: linear-gradient(135deg,#f43f5e,#e11d48)}
+  .btn.save{ background: linear-gradient(135deg,#22c55e,#16a34a)}
+  .btn.compare{ background: linear-gradient(135deg,#a855f7,#6366f1)}
+  .btn.calc{ background: var(--brand-grad); width:100%; padding:16px; margin-top:6px }
 
-.about-developer h2 {
-  font-size: 36px;
-  margin-bottom: 20px;
+  /* Table-like Grid */
+  .grid-header, .row{
+    display:grid; grid-template-columns: 1.4fr .6fr .6fr auto; gap:12px; align-items:center;
+  }
+  .grid-header{font-weight:700; border-bottom:1px dashed var(--line); padding:10px 0 12px; color:var(--muted)}
+  .row{padding:12px 0; border-bottom:1px dashed var(--line)}
+  .row:last-child{border-bottom:none}
 
-  color: #7a00cc;
-  animation: slideUp 1s ease-out;
-}
+  .field, select{
+    width:100%; padding:12px 12px; border-radius:12px; border:1px solid var(--line);
+    background:var(--field); color:var(--text); outline:none; font-size:1rem;
+    transition: background .2s ease, border-color .2s ease;
+  }
+  .field:focus, select:focus{ background:var(--field-focus); border-color: color-mix(in srgb, var(--accent-blue) 60%, var(--line))}
 
-.about-developer p {
-  font-size: 18px;
-  line-height: 1.7;
-  margin-bottom: 20px;
-  color: white;
-}
+  .row .remove-mini{
+    border:none; background:linear-gradient(135deg,#f43f5e,#e11d48); color:#fff;
+    padding:10px 12px; border-radius:12px; font-weight:700; cursor:pointer;
+  }
 
-.about-developer span,
-.about-developer strong {
-  color: #6b00b3;
-  font-weight: bold;
-}
+  .subtle{ color:var(--muted); font-size:.95rem; margin-top:10px }
 
-.skills h3,
-.connect h3 {
-  font-size: 24px;
-  margin-bottom: 10px;
-  color: #6b00b3;
-}
+  /* Modal */
+  .overlay{
+    position:fixed; inset:0; display:none; place-items:center; padding:20px; z-index:40;
+    background: rgba(0,0,0,.25); backdrop-filter: blur(6px);
+  }
+  .overlay.show{ display:grid }
+  .modal{
+    width:min(940px, 96vw);
+    border-radius:24px; border:1px solid var(--line); box-shadow: var(--shadow);
+    background: linear-gradient(180deg, color-mix(in srgb, var(--bg-2) 86%, transparent), color-mix(in srgb, var(--bg-1) 86%, transparent));
+    padding:24px 24px 22px; animation: pop .22s ease-out;
+  }
+  @keyframes pop{ from{ transform: translateY(14px) scale(.98); opacity:.0 } to{ transform:none; opacity:1 } }
+  .modal-head{
+    display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px;
+  }
+  .modal-title{
+    font-family:'Space Grotesk',sans-serif; font-size:1.2rem; letter-spacing:.2px;
+    background: linear-gradient(45deg,#38bdf8,#a855f7); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  }
+  .close{
+    border:none; background: color-mix(in srgb, var(--field) 70%, transparent);
+    padding:10px 12px; border-radius:12px; cursor:pointer; color:var(--text); font-weight:700;
+    border:1px solid var(--line);
+  }
 
-.skills ul {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  list-style: none;
-  padding: 0;
-}
+  .modal-body{
+    display:grid; gap:16px;
+  }
+  .cgpa-banner{
+    display:grid; grid-template-columns: 1fr auto; align-items:center; gap:16px;
+    background: var(--card); border:1px solid var(--line); border-radius:18px; padding:16px 18px;
+  }
+  .cgpa-number{
+    font-size: clamp(32px, 5vw, 52px); font-weight:800; line-height:1;
+    background: var(--brand-grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  }
+  .summary{
+    display:grid; grid-template-columns: repeat(auto-fit, minmax(190px,1fr)); gap:12px;
+  }
+  .chip{
+    border-radius:14px; padding:12px 14px; border:1px solid var(--line); background:var(--field);
+  }
+  .sem-grid{
+    display:grid; gap:10px;
+    grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+  }
+  .sem-card{
+    border-radius:16px; border:1px solid var(--line); background:var(--field);
+    padding:14px 16px;
+  }
+  .sem-title{ font-weight:700; margin-bottom:8px }
+  .sem-meta{ color:var(--muted); font-size:.95rem }
+  .modal-footer{ display:flex; justify-content:flex-end; gap:10px; margin-top:10px }
+  .outline{
+    border:1px solid var(--line); background: transparent; color: var(--text); padding:10px 14px; border-radius:12px; font-weight:700; cursor:pointer;
+  }
+  .primary{ background: var(--brand-grad); color:#fff; border:none; padding:12px 16px; border-radius:12px; font-weight:800; cursor:pointer }
 
-.skills ul li {
-  background-color: #c09eff;
-  color: #fff;
-  padding: 10px 18px;
-  border-radius: 30px;
-  font-size: 16px;
-  transition: transform 0.3s ease;
-}
+  /* Footer */
+  footer{ text-align:center; color:var(--muted); padding:24px }
 
-.skills ul li:hover {
-  transform: scale(1.05);
-}
-
-.connect .links {
-  margin-top: 10px;
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-
-#cgpaResult {
-  font-size: 1.2rem;
-  font-weight: bold;
-  text-align: center;
+  /* Small helpers */
+  .sr{ position:absolute; left:-9999px }
+.ai-box {
   margin-top: 20px;
-  width:auto;
-  height:auto;
-}
-.connect a {
-  background: #7a00cc;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 25px;
-  text-decoration: none;
-  font-size: 16px;
-  transition: background 0.3s ease, transform 0.3s ease;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #f9f9f9;
 }
 
-.connect a:hover {
-  background: #4d0099;
-  transform: scale(1.05);
+.ai-response {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 6px;
+  background: #eee;
+  font-size: 14px;
+  white-space: pre-wrap;
 }
-
-/* Animations */
-@keyframes fadeIn {
-  0% { opacity: 0; transform: translateY(20px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes slideUp {
-  0% { transform: translateY(40px); opacity: 0; }
-  100% { transform: translateY(0); opacity: 1; }
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .skills ul {
-    justify-content: center;
-  }
-
-  .connect .links {
-    flex-direction: column;
-    align-items: center;
-  }
-}
-    footer {
-      margin-top: 40px;
-      background: #181818;
-      padding: 30px 20px;
-      text-align: center;
-      width: 100%;
-    }
-    footer h2 {
-      font-size: 1.5rem;
-      color: #00ff99;
-      margin-bottom: 10px;
-    }
-    footer p {
-      font-size: 0.9rem;
-      color: #bbb;
-      margin-bottom: 15px;
-    }
-    .footer-links a {
-      color: #888;
-      text-decoration: none;
-      margin: 0 10px;
-      font-size: 0.9rem;
-      transition: color 0.3s;
-    }
-    .footer-links a:hover { color: #00ff99; }
-    .footer-bottom {
-      font-size: 0.8rem;
-      color: #666;
-    }
-    .social-icons {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 25px;
-    }
-    .social-icons a {
-      color: white;
-      font-size: 24px;
-      transition: transform 0.3s ease, color 0.3s ease;
-    }
-    .social-icons a.facebook:hover { color: #3b5998; transform: scale(1.2); }
-    .social-icons a.x:hover { color: #ccc; transform: scale(1.2); }
-    .social-icons a.tiktok:hover { color: #ff0050; transform: scale(1.2); }
-    .social-icons a.whatsapp:hover { color: #25d366; transform: scale(1.2); }
-    .social-icons a.youtube:hover { color: #ff0000; transform: scale(1.2); }
-
-.dev {
-display:flex;
-flex-direction:row;
-}
-
-.skil {
-display:flex;
-gap:2px;
-flex-direction:row;
-}
-  </style>
+</style>
 </head>
 <body>
-  <div class="fuoye-log" style="pointer-events: none; width:100%; user-select: none;">
-    <img src="index.PNG" style="pointer-events: none; user-select: none;" width="100%">
-  </div>
-  <br><br><br><br><br><br><br>
 
-
-<div style="padding:10px; margin-top:20px;" class="head-text"><p>The <span style="color:red">new version</span> is coming with huge updates. If you have any feedback or suggestions, please  <a href="https://wa.me/2349048842049" target="_blank" class="whatsapp">let us know</a></p></div>
-
-<div class="body">
-  <div class="hamburger" id="hamburger">
-    <span></span>
-    <span></span>
-    <span></span>
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="brand">CGPA Calc </div>
+    <div class="top-actions">
+      <button class="toggle" id="themeToggle">Toggle Theme</button>
+      <button class="toggle" id="showResultsTop">Show Results</button>
+    </div>
   </div>
 
-  <nav class="sidebar" id="sidebar">
-    <a href="#">🏠 Home</a>
-    <a href="#">💡 Features</a>
-    <a href="#project">🚀 Projects</a>
-    <a href="mailto:israelalonge2024@gmail.com">📞 Contact</a>
- 
-  </nav>
+<!-- =========== INTRODUCTION =========== -->
+<div class="introduction body">
+     
+  <div class="introduction logo">
+    <img style="border-radius: 100%;" id="logo" alt="fuoye logo" src="images/Logo-light.png">
+  </div>
+      
+  <divclass="introduction text">
+    <h1 style="font-family: "Barlow Semi Condensed", sans-serif;">Federal University, Oye-ekiti</h1>
+    <p class="text-fade">A FUOYE standard C.G.P.A calculator using a scale of 5.0</p>
+   
+  </div>
+<div style="padding-left:10px">
+    <p>Developed by <a href="#">Alonge Israel</a></p>
+    <p>&copy; 2025. All Rights Reserved</p>
+</div>
 </div>
 
+<!-- =========== TRUST + FULL-WIDTH SLIDER SECTION =========== -->
+<section class="trust-section">
+  <div class="trust-inner container">
+    <!-- Trust cards -->
+    <div class="trust-cards">
+      <article class="trust-card" data-aos="fade-up">
+        <div class="trust-icon" aria-hidden="true">
+          <!-- lightning SVG -->
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M13 2L3 14h8l-1 8 10-12h-8z"/>
+          </svg>
+        </div>
 
- <div class="stats-section">
-    <div class="stat-box">
-      <div class="stat-number" id="userCount">0</div>
-      <div class="stat-label">Active  Users 🥳</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-number" id="eventCount">0</div>
-      <div class="stat-label">Event Count ✅</div>
-    </div>
-  </div>
-<br><br><br>
-<section style="padding: 40px 20px; background-color: #f9fafb; pointer-events: none; user-select: none; text-align: center;">
-  <h2 style="font-size: 1.8rem; margin-bottom: 30px; color: #111;">Why Students Trust Our CGPA Calculator</h2>
-  
-  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; max-width: 900px; margin: 0 auto;">
-    
-    <div style="flex: 1 1 250px;">
-      <img src="https://img.icons8.com/ios-filled/50/22c55e/speed.png" alt="Fast" />
-      <h3 style="margin-top: 15px; font-size: 1.2rem;">Instant Calculation</h3>
-      <p style="color: #555;">Get accurate CGPA results in seconds — no stress, no errors.</p>
-    </div>
+        <h3>Fast & accurate</h3>
+        <p>Get CGPA results in seconds — instant, reliable calculations with no stress.</p>
+      </article>
 
-    <div style="flex: 1 1 250px;">
-      <img src="https://img.icons8.com/ios-filled/50/22c55e/security-checked.png" alt="Secure" />
-      <h3 style="margin-top: 15px; font-size: 1.2rem;">No Data Loss</h3>
-      <p style="color: #555;">Your entries stay safe on your device — no sign-up needed.</p>
-    </div>
+      <article class="trust-card" data-aos="fade-up" data-aos-delay="80">
+        <div class="trust-icon" aria-hidden="true">
+          <!-- shield SVG -->
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2l7 4v6c0 5-3.5 9-7 10-3.5-1-7-5-7-10V6l7-4z"></path>
+          </svg>
+        </div>
+        <h3>Secure & reliable</h3>
+        <p>Your entries stay safe — no data loss. Trusted workflows for thousands of students.</p>
+      </article>
 
-    <div style="flex: 1 1 250px;">
-      <img src="https://img.icons8.com/ios-filled/50/22c55e/people-working-together.png" alt="Used by Many" />
-      <h3 style="margin-top: 15px; font-size: 1.2rem;">Trusted by 4,000+</h3>
-      <p style="color: #555;">Thousands of students use it daily — including from FUOYE.</p>
+      <article class="trust-card" data-aos="fade-up" data-aos-delay="160">
+        <div class="trust-icon" aria-hidden="true">
+          <!-- users SVG -->
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+        </div>
+        <h3>Trusted by 4,000+ students</h3>
+        <p>FUOYE students & friends rely on our calculator daily — join the community of achievers.</p>
+      </article>
     </div>
-    
-  </div>
-</section>
-
-<br><br><br>
-<section style="padding: 40px 20px; background-color: #f1f5f9; pointer-events: none; user-select: none;   text-align: center;">
-  <h2 style="font-size: 1.8rem; margin-bottom: 30px; color: #111;">Recommended Learning Resources</h2>
-  
-  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; max-width: 1000px; margin: 0 auto;">
-    
-    <!-- Tutor #1 -->
-    <div style="flex: 1 1 280px; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.06);">
-      <img src="https://img.icons8.com/ios-filled/50/4ade80/classroom.png" alt="Tutor" />
-      <h3 style="margin-top: 15px; font-size: 1.2rem; color: #111;">Tutorials with TEEKAY</h3>
-      <p style="color: #444;">Special thanks to Teekay for sharing our app! He also offers tutorials for 100level-400level, Producing countless first-class graduate. Highly trusted by FUOYE students.</p>
-    </div>
-
-    <!-- Ad #2 -->
-    <div style="flex: 1 1 280px; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.06);">
-      <img src="https://img.icons8.com/ios-filled/50/4ade80/training.png" alt="Excel Masterclass" />
-      <h3 style="margin-top: 15px; font-size: 1.2rem; color: #111;">Are you interested in joing a tech community</h3>
-      <p style="color: #444;">Join weekly sessions now, start your tech career now.</p>
-    </div>
-
-    <!-- Ad #3 -->
-    <div style="flex: 1 1 280px; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.06);">
-      <img src="https://img.icons8.com/ios-filled/50/4ade80/student-male--v1.png" alt="Learn HTML CSS" />
-      <h3 style="margin-top: 15px; font-size: 1.2rem; color: #111;">Frontend Coding Bootcamp</h3>
-      <p style="color: #444;">From zero to hero in HTML & CSS. Ideal for 100-level and 200-level students who want to build real-world websites. kindly click on the buy me  a coffee section.</p>
-    </div>
-
   </div>
 </section>
 
- <br><br><br>
-  <div class="container">
-    <div class="calc-image">
-      <img src="calc.WEBP" style="pointer-events: none; user-select: none;" width="50%">
+
+<!-- Full width slider -->
+<section class="hero-slider" aria-label="Recommended learning resources">
+  <div class="slider-viewport">
+    <div class="slides" id="slides">
+      <!-- Slide 1 -->
+      <article class="slide" style="--bg:linear-gradient(135deg,#0ea5e9aa,#7c3aed66);">
+        <div class="slide-inner container">
+          <div class="slide-left">
+            <h2>Teekay Tutorials — 100L to 400L</h2>
+            <p class="lead">Structured lessons for every level. tutorials, practical examples, and exam-focused notes — trusted by students across levels.</p>
+            <div class="slide-cta">
+              <a class="btn-primary" href="#" target="_blank" rel="noopener">Explore Tutorials</a>
+            </div>
+          </div>
+          <div class="slide-right">
+            <div class="slide-card">
+              <img alt="Tiki Tutorial Preview" src="images/teekay.JPG" />
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Slide 2 -->
+      <article class="slide" style="--bg:linear-gradient(135deg,#f97316aa,#6ee7b7aa);">
+        <div class="slide-inner container">
+          <div class="slide-left">
+            <h2>Join our Tech Community</h2>
+            <p class="lead">Weekly coding sessions, mentorship, and project sprints. Meet peers, level up your skills, and ship real projects.</p>
+            <div class="slide-cta">
+              <a class="btn-primary" href="https://wa.me/0000000000" target="_blank" rel="noopener">Scan Now(WhatsApp)</a>
+            </div>
+          </div>
+          <div class="slide-right">
+            <div class="slide-card">
+              <img alt="Community" src="images/tech.png" />
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Slide 3 -->
+      <article class="slide" style="--bg:linear-gradient(135deg,#8b5cf6aa,#06b6d4aa);">
+        <div class="slide-inner container">
+          <div class="slide-left">
+            <h2>Study Smarter — Boost Your GPA</h2>
+            <p class="lead"><strong>1.	💡 Tip: </strong>Enhance your learning experience by studying with ChatGPT.
+	<br><strong>2.	Reminder: </strong>Utilize ChatGPT as a resource to strengthen your understanding of complex topics.
+	<br><strong>3.	Study Smart: </strong>Incorporate ChatGPT into your study routine for clearer explanations and better outcomes.
+		<br><strong>4.	Hint: </strong>ChatGPT can provide detailed guidance on concepts that may seem difficult.
+		<br><strong>5.	Note: </strong>Maximize the value of this CGPA Calculator by complementing it with ChatGPT for effective study support.
+
+.</p>
+            <div class="slide-cta">
+              <a class="btn-primary" href="#" target="_blank" rel="noopener">Get Study Tips</a>
+            </div>
+          </div>
+          <div class="slide-right">
+            <div class="slide-card">
+              <img alt="Study tips" src="images/ChatGPT.jpg" />
+            </div>
+          </div>
+        </div>
+      </article>
     </div>
-    <div class="big-image">
-      <img src="big.WEBP" style="pointer-events: none; user-select: none;" width="70%">
+
+    <!-- arrows -->
+    <button class="slider-arrow prev" id="prev" aria-label="Previous slide">‹</button>
+    <button class="slider-arrow next" id="next" aria-label="Next slide">›</button>
+
+    <!-- dots -->
+    <div class="slider-dots" id="dots" role="tablist" aria-label="Slide dots"></div>
+  </div>
+</section>
+
+<!-- ================= STYLES ================= -->
+<style>
+  /* Reuse your theme tokens if present; fallback colors provided */
+  :root{
+    --brand-grad: linear-gradient(135deg,#38bdf8,#6366f1,#a855f7);
+    --card-bg: rgba(255,255,255,0.05);
+    --muted: #cbd5e1;
+    --text: #fff;
+    --glass-border: rgba(255,255,255,0.08);
+    --radius: 14px;
+  }
+
+  /* Container helper */
+  .container{ max-width:1100px; margin:0 auto; padding:0 18px; }
+
+  /* ---------- Trust section ---------- */
+  .trust-section{ padding:36px 0; }
+  .trust-inner{ display:flex; justify-content:center; align-items:center; }
+  .trust-cards{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:18px;
+    width:100%;
+  }
+  .trust-card{
+    background:var(--card-bg);
+    border:1px solid var(--glass-border);
+    padding:20px;
+    border-radius:18px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.45);
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    align-items:flex-start;
+    transition:transform .2s ease, box-shadow .25s ease;
+  }
+  .trust-card:hover{ transform:translateY(-6px); box-shadow:0 14px 40px rgba(0,0,0,0.55); }
+  .trust-icon{ width:56px; height:56px; display:grid; place-items:center; border-radius:12px; background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); color:var(--text); }
+  .trust-card h3{ margin:0; font-size:1.05rem; font-weight:700; }
+  .trust-card p{ color:var(--muted); margin:0; font-size:0.95rem; line-height:1.45; }
+
+  /* Responsive */
+  @media (max-width:900px){
+    .trust-cards{ grid-template-columns: 1fr; }
+  }
+
+  /* ---------- Slider (full width) ---------- */
+  .hero-slider{ margin-top:28px; position:relative; overflow:hidden; }
+  .slider-viewport{ position:relative; width:100%; }
+  .slides{ display:flex; transition:transform .7s cubic-bezier(.22,.98,.35,1); will-change:transform; }
+  .slide{ min-width:100%; box-sizing:border-box; display:flex; align-items:center; padding:48px 0; }
+  .slide-inner{ display:flex; gap:28px; align-items:center; justify-content:space-between; }
+  .slide-left{ flex:1; max-width:640px; color:var(--text); }
+  .slide-right{ width:420px; display:flex; justify-content:center; align-items:center; }
+  .slide-card{ width:360px; border-radius:14px; overflow:hidden; border:1px solid var(--glass-border); background:var(--card-bg); padding:18px; box-shadow:0 18px 40px rgba(0,0,0,0.45); }
+  .slide-card img{ width:100%; height:auto; display:block; border-radius:10px; }
+
+  .slide h2{ margin:0 0 12px; font-family:'Space Grotesk', sans-serif; font-size:1.8rem; line-height:1.03; background:var(--brand-grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .slide .lead{ color:var(--muted); font-size:1rem; margin-bottom:16px; }
+  .slide-cta .btn-primary{ display:inline-block; padding:12px 18px; border-radius:12px; background:var(--brand-grad); color:#fff; text-decoration:none; font-weight:700; }
+
+  /* arrows */
+  .slider-arrow{
+    position:absolute; top:50%; transform:translateY(-50%); width:48px; height:48px; font-size:28px;
+    border-radius:12px; background:rgba(0,0,0,0.45); color:#fff; border:none; display:grid; place-items:center;
+    cursor:pointer; z-index:10; transition:transform .15s ease, background .15s ease;
+  }
+  .slider-arrow:hover{ transform:translateY(-50%) scale(1.05); background:rgba(0,0,0,0.6); }
+  .slider-arrow.prev{ left:18px; }
+  .slider-arrow.next{ right:18px; }
+
+  /* dots */
+  .slider-dots{ position:absolute; left:50%; transform:translateX(-50%); bottom:14px; display:flex; gap:8px; z-index:10; }
+  .slider-dots button{ width:10px; height:10px; border-radius:999px; border:none; background:rgba(255,255,255,0.25); cursor:pointer; transition:transform .12s ease, background .12s ease; }
+  .slider-dots button.active{ background:#fff; transform:scale(1.15); box-shadow:0 6px 18px rgba(0,0,0,0.35); }
+
+  /* responsive */
+  @media (max-width:980px){
+    .slide-inner{ flex-direction:column; align-items:flex-start; gap:18px; }
+    .slide-right{ width:100%; }
+    .slide-card{ width:100%; }
+    .slider-arrow{ display:none; } /* optional: hide arrows on small screens */
+  }
+
+  /* visual polish: each slide uses --bg */
+  .slide{ background-image:var(--bg); background-size:cover; background-position:center; }
+</style>
+
+<!-- ================= SCRIPTS ================= -->
+<script>
+  (function(){
+    const slidesEl = document.getElementById('slides');
+    const dotsEl = document.getElementById('dots');
+    const prev = document.getElementById('prev');
+    const next = document.getElementById('next');
+    const slides = Array.from(slidesEl.children);
+    let current = 0;
+    let autoplayMs = 6000;
+    let autoplayId = null;
+    const total = slides.length;
+
+    // Build dots
+    function buildDots(){
+      dotsEl.innerHTML = '';
+      for(let i=0;i<total;i++){
+        const btn = document.createElement('button');
+        btn.setAttribute('aria-label', 'Go to slide ' + (i+1));
+        btn.dataset.index = i;
+        if(i===0) btn.classList.add('active');
+        dotsEl.appendChild(btn);
+      }
+    }
+
+    function goTo(index, animate=true){
+      current = (index + total) % total;
+      const translateX = -current * 100;
+      if(!animate) slidesEl.style.transition = 'none';
+      else slidesEl.style.transition = '';
+      slidesEl.style.transform = `translateX(${translateX}%)`;
+      // update dots
+      Array.from(dotsEl.children).forEach((d,i)=> d.classList.toggle('active', i===current));
+      // reset autoplay
+      resetAutoplay();
+    }
+
+    // Next / Prev
+    function nextSlide(){ goTo(current+1); }
+    function prevSlide(){ goTo(current-1); }
+
+    // autoplay
+    function startAutoplay(){
+      stopAutoplay();
+      autoplayId = setInterval(()=> goTo(current+1), autoplayMs);
+    }
+    function stopAutoplay(){ if(autoplayId) clearInterval(autoplayId); autoplayId = null; }
+    function resetAutoplay(){ stopAutoplay(); startAutoplay(); }
+
+    // init
+    buildDots();
+    goTo(0, false);
+    startAutoplay();
+
+    // events
+    next.addEventListener('click', nextSlide);
+    prev.addEventListener('click', prevSlide);
+
+    dotsEl.addEventListener('click', (e)=>{
+      const b = e.target.closest('button');
+      if(!b) return;
+      const i = Number(b.dataset.index);
+      goTo(i);
+    });
+
+    // pause on hover
+    const viewport = document.querySelector('.slider-viewport');
+    viewport.addEventListener('mouseenter', stopAutoplay);
+    viewport.addEventListener('mouseleave', startAutoplay);
+
+    // keyboard navigation
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'ArrowLeft') prevSlide();
+      if(e.key === 'ArrowRight') nextSlide();
+    });
+
+    // responsive: recalc on resize (keeps transform correct)
+    window.addEventListener('resize', ()=> goTo(current, false));
+  })();
+</script>
+  <main class="container" id="app">
+    <!-- Global actions -->
+    <div class="panel" data-aos="fade-up">
+      <h2>Manage Semesters</h2>
+      <div class="controls">
+        <button class="btn add" id="addSemesterBtn">+ Add Semester</button>
+        <button class="btn del" id="removeSemesterBtn">Remove Last Semester</button>
+        <button class="btn calc" id="calcAllBtn">Calculate CGPA</button>
+      </div>
+      <p class="subtle">Tip: Add courses inside each semester. CGPA is computed as
+        <strong>Total Points ÷ Total Units</strong> across all semesters.</p>
     </div>
-    <div id="semesters-container"></div>
-    <button class="add-semester-btn" onclick="addSemester()" data-aos="fade-in">+ Add New Semester</button>
-    <div class="actions">
-      <button class="save-btn" onclick="saveAllResults()">Save All Results</button>
-      <button class="load-btn" onclick="loadResults()">Load Results</button>
-      <button class="pdf-btn" onclick="exportToPDF()">Download PDF</button>
-    </div>
-    <div class="cgpa-result" id="cgpaResult" style="display:none;"></div>
- 
+
+    <!-- Semesters container -->
+    <div id="semesters"></div>
+ <table class="grades-table" style="margin-bottom:100px; margin-top:30px;">
 
 
-
-       <table class="grades-table" style="margin-bottom:100px; color:blue; margin-top:30px;" id="gradesTable-${semesterCount}">
-
-
-<div class="scale">Grading scale ⚖️</div>
+   <div class="brand">Grade Scale⚖️ </div>
           <thead>
             <tr>
               <th>Grade</th>
@@ -723,487 +632,494 @@ flex-direction:row;
             </tbody>
           </table>
   </div>
-<div style="color:white; font-size:20px; padding-right:10px; padding-left:10px; line-height:2;" class="about">
-<span style="color:purple; font-weight:900;"><h2>Welcome to the:</h2></span>
-<br>
-<br>
-<span style="font-weight:900; font-family:Bebas Neue; color:purple; font-size:30px;"><p>Overall GPA Calculator</p></span>
 
-Are you a student looking to calculate your Cumulative Grade Point Average (CGPA) effortlessly? Look no further! Our online CGPA Calculator is designed to provide you with quick and accurate results, saving your time and effort.
-<br><br><br>
-<br>
-Whether you're a current student tracking your academic progress or planning how much grades you need for future semesters, our Simple CGPA calculator is here to simplify the process for you. If you want to calculate CGPA from GPA or want to convert SGPA to CGPA, our powerful tool has got you covered.
-<br><br>
-We understand that every student's academic journey is unique, and that's why our calculator is designed to accommodate individual needs. You have the flexibility to choose specific semesters for which you want to calculate your CGPA. Whether you're in the middle of your academic career or have completed all semesters, our online tool empowers you to assess your performance with ease.
-<br><br>
-If you don't know the GPA of your semesters, you can use our dedicated tool, <span style="color:#a855f7;">"Simple GPA Calculator"</span> which is designed to handle grades and course points with credit hours.
-</div>
-<section class="about-developer">
- <div style="pointer-events: none; user-select: none;" class="dev">
-<div class="dev-img"><img src="flutter.PNG" /></div><div class="dev-text"><h2>❇️ About the Developer</h2></div> 
-</div>
-  <p class="intro">
-    Hey there! I’m <span>Alonge Israel Olajide</span>, a passionate frontend developer and a 200-level student in the <strong>Biochemistry Department, FUOYE</strong>, proudly from <strong>Kogi State</strong>, Nigeria.
-  </p>
-  <p class="mission">
-    I built this CGPA calculator with love and focus to help fellow students manage, track, and predict their academic progress easily. 📊💡
-  </p>
+<!-- ========== TO-DO LIST SECTION ========== -->
+<section class="todo-section" id="todo">
+  <div class="container">
+    <h2 class="todo-title" data-aos="fade-up">Your To-Do List</h2>
 
-  <div style="pointer-events: none; user-select: none;" class="skills">
-   <div class="ski">
-<div><img src="laptop.PNG"></div><div><h3>My Skills</h3></div>
-</div>
-    <ul style="color:blue;">
-      <li>HTML</li>
-      <li>CSS</li>
-      <li>JavaScript</li>
-      <li>UI/UX Design</li>
-      <li>Git & GitHub</li>
-      <li>Tailwind CSS</li>
-      <li>Python (learning)</li>
+    <!-- Input -->
+    <div class="todo-input-wrap" data-aos="fade-up" data-aos-delay="80">
+      <input type="text" id="todoInput" placeholder="Add a new task..." />
+      <button id="addTodoBtn">+ Add</button>
+    </div>
+
+    <!-- List -->
+    <ul class="todo-list" id="todoList" data-aos="fade-up" data-aos-delay="120">
+      <!-- tasks go here -->
     </ul>
-  </div>
 
-  <div class="connect">
-    <h3>🔗 Connect With Me</h3>
-    <p>Want to collaborate or support this project? Reach out here:</p>
-    <div class="links">
-      <a href="mailto:israelalonge2024@gmail.com">Email</a>
-      <a href="https://github.com/israelalonge2024-github" target="_blank">GitHub</a>
-      <a href="https://twitter.com/your-handle" target="_blank">Twitter</a>
+    <!-- Actions -->
+    <div class="todo-actions" data-aos="fade-up" data-aos-delay="160">
+      <button id="clearTodos" class="outline">Clear All</button>
     </div>
   </div>
 </section>
 
-<section style="padding: 50px 20px; background-color: #f9fafb; text-align: center;">
-  <h2 style="font-size: 1.8rem; color: #111;">☕ Buy Me a Coffee?</h2>
-  <p style="color: #444; max-width: 500px; margin: 10px auto 25px;">
-    If this web app helped you or saved your time, you can support the developer with a coffee. Every bit of love counts ❤️
-  </p>
-    <a href="https://wa.me/2349048842049" target="_blank" style="background-color: #ffdd00; padding: 12px 28px; border-radius: 8px; font-weight: bold; text-decoration: none; color: #000; display: inline-block;">
-    ☕ Buy Me a Coffee
-  </a>
-</section>
+<style>
+  /* -------- To-do styles -------- */
+  .todo-section{ padding:48px 0; }
+  .todo-title{ font-size:1.6rem; font-weight:700; margin-bottom:18px; }
 
-  <footer>
-    <h2>fuoye cgpa calculator</h2>
-    <p>Clean. Fast. Just the way you like it.</p>
-    <div class="footer-links">
-      <a href="#">Home</a>
-      <a href="#">About</a>
-      <a href="#">Services</a>
-      <a href="09048842049">Contact</a>
+  .todo-input-wrap{ display:flex; gap:10px; }
+  .todo-input-wrap input{
+    flex:1;
+    padding:12px 14px;
+    border-radius:var(--radius);
+    border:1px solid var(--glass-border);
+    background:var(--card-bg);
+    color:var(--text);
+    font-size:1rem;
+  }
+  .todo-input-wrap input::placeholder{ color:var(--muted); }
+  .todo-input-wrap button{
+    padding:12px 18px;
+    border-radius:var(--radius);
+    border:none;
+    font-weight:600;
+    cursor:pointer;
+    background:var(--brand-grad);
+    color:#fff;
+    transition:transform .2s ease;
+  }
+  .todo-input-wrap button:hover{ transform:translateY(-2px); }
+
+  .todo-list{ margin-top:20px; list-style:none; padding:0; display:flex; flex-direction:column; gap:12px; }
+  .todo-item{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:12px 16px;
+    background:var(--card-bg);
+    border:1px solid var(--glass-border);
+    border-radius:var(--radius);
+    box-shadow:0 4px 14px rgba(0,0,0,.35);
+    animation:fadeIn .35s ease forwards;
+  }
+  .todo-left{ display:flex; align-items:center; gap:10px; }
+  .todo-left input[type="checkbox"]{ width:18px; height:18px; cursor:pointer; }
+  .todo-text{ font-size:1rem; color:var(--text); }
+  .todo-text.done{ text-decoration:line-through; opacity:.55; }
+
+  .todo-del{
+    background:none; border:none; cursor:pointer; color:var(--muted);
+    font-size:18px; transition:color .2s ease;
+  }
+  .todo-del:hover{ color:tomato; }
+
+  .todo-actions{ margin-top:16px; }
+  .todo-actions button{
+    padding:10px 16px;
+    border-radius:var(--radius);
+    border:1px solid var(--glass-border);
+    background:transparent;
+    color:var(--text);
+    cursor:pointer;
+    transition:background .2s ease;
+  }
+  .todo-actions button:hover{ background:rgba(255,255,255,0.08); }
+
+  @keyframes fadeIn{
+    from{ opacity:0; transform:translateY(8px);}
+    to{ opacity:1; transform:translateY(0);}
+  }
+
+  /* Responsive */
+  @media(max-width:600px){
+    .todo-input-wrap{ flex-direction:column; }
+    .todo-input-wrap button{ width:100%; }
+  }
+</style>
+
+<script>
+(function(){
+  const input = document.getElementById('todoInput');
+  const addBtn = document.getElementById('addTodoBtn');
+  const list = document.getElementById('todoList');
+  const clearBtn = document.getElementById('clearTodos');
+
+  // Load saved todos
+  let todos = JSON.parse(localStorage.getItem('cgpa-todos')||'[]');
+
+  function render(){
+    list.innerHTML = '';
+    todos.forEach((t,idx)=>{
+      const li = document.createElement('li');
+      li.className = 'todo-item';
+      li.innerHTML = `
+        <div class="todo-left">
+          <input type="checkbox" ${t.done?'checked':''} data-idx="${idx}" />
+          <span class="todo-text ${t.done?'done':''}">${t.text}</span>
+        </div>
+        <button class="todo-del" data-idx="${idx}" aria-label="Delete">✕</button>
+      `;
+      list.appendChild(li);
+    });
+    save();
+  }
+
+  function addTodo(text){
+    if(!text.trim()) return;
+    todos.push({text,done:false});
+    input.value='';
+    render();
+  }
+
+  function toggleDone(idx){
+    todos[idx].done=!todos[idx].done;
+    render();
+  }
+
+  function deleteTodo(idx){
+    todos.splice(idx,1);
+    render();
+  }
+
+  function clearAll(){
+    if(confirm("Clear all tasks?")){
+      todos=[];
+      render();
+    }
+  }
+
+  function save(){
+    localStorage.setItem('cgpa-todos', JSON.stringify(todos));
+  }
+
+  // Events
+  addBtn.addEventListener('click', ()=> addTodo(input.value));
+  input.addEventListener('keypress', e=>{ if(e.key==='Enter') addTodo(input.value); });
+  list.addEventListener('click', e=>{
+    if(e.target.matches('input[type="checkbox"]')) toggleDone(e.target.dataset.idx);
+    if(e.target.matches('.todo-del')) deleteTodo(e.target.dataset.idx);
+  });
+  clearBtn.addEventListener('click', clearAll);
+
+  // Init
+  render();
+})();
+</script>
+  </main>
+
+
+  <footer>© 2025 Fuoye CGPA calculator — Designed By Israel Alonge •Open source</footer>
+<!-- MODAL -->
+<div class="overlay" id="overlay" aria-modal="true" role="dialog" aria-labelledby="resultTitle">
+  <div class="modal" role="document">
+    <div class="modal-head">
+      <div class="modal-title" id="resultTitle">Your Results</div>
+      <button class="close" id="closeModal" aria-label="Close">✕</button>
     </div>
-    <div class="footer-bottom">
-      © 2025 fuoye cgpa calculator. All rights reserved.<br>
-      Built by Alonge Israel
+
+    <div class="modal-body">
+      <div class="cgpa-banner">
+        <div>
+          <div class="cgpa-number" id="cgpaNumber">0.00</div>
+          <div class="subtle">Cumulative Grade Point Average</div>
+
+          <!-- ✅ Classification goes here -->
+          <div class="classification">
+            Classification: <span id="classResult">—</span>
+          </div>
+        </div>
+
+        <div class="summary">
+          <div class="chip">
+            <strong id="sumUnits">0</strong>
+            <div class="subtle">Total Units</div>
+          </div>
+          <div class="chip">
+            <strong id="sumPoints">0</strong>
+            <div class="subtle">Total Points</div>
+          </div>
+          <div class="chip">
+            <strong id="semCount">0</strong>
+            <div class="subtle">Semesters Included</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sem-grid" id="semBreakdown"><!-- per-semester cards here --></div>
     </div>
-  </footer>
-  <div class="footer" style="background:black;">
-    <div class="social-icons">
-      <a href="" target="_blank" class="facebook"><i class="fab fa-facebook-f"></i></a>
-      <a href="" target="_blank" class="x"><i class="fab fa-x-twitter"></i></a>
-      <a href="" target="_blank" class="tiktok"><i class="fab fa-tiktok"></i></a>
-      <a href="https://wa.me/2349048842049" target="_blank" class="whatsapp"><i class="fab fa-whatsapp"></i></a>
-      <a href="" target="_blank" class="youtube"><i class="fab fa-youtube"></i></a>
+
+    <div class="modal-footer">
+      <button class="outline" id="exportBtn" title="(Demo) Export coming next">Export</button>
+      <button class="primary" id="closeModal2">Close</button>
     </div>
   </div>
+</div>
+
+  <!-- AOS -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
   <script>
-  function animateCounter(id, target, speed = 100) {
-      let current = 0;
-      const element = document.getElementById(id);
-      const update = setInterval(() => {
-        current += Math.ceil((target - current) / 10);
-        element.textContent = current.toLocaleString() + "+";
-        if (current >= target) {
-          clearInterval(update);
-          element.textContent = target.toLocaleString() + "+";
-        }
-      }, speed);
-    }
+    AOS.init();
 
-    // Animate both stats
-    animateCounter("userCount", 930);
-    animateCounter("eventCount", 4700);
+/************** UTILITIES **************/
+    const $ = (sel, ctx=document) => ctx.querySelector(sel);
+    const $$ = (sel, ctx=document) => Array.from(ctx.querySelectorAll(sel));
 
- const hamburger = document.getElementById("hamburger");
-    const sidebar = document.getElementById("sidebar");
+    // Grade options (A=5 ... F=0)
+    const gradeOptions = `
+      <option value="5">A</option>
+      <option value="4">B</option>
+      <option value="3">C</option>
+      <option value="2">D</option>
+      <option value="1">E</option>
+      <option value="0">F</option>
+    `;
 
-    hamburger.addEventListener("click", () => {
-      hamburger.classList.toggle("active");
-      sidebar.classList.toggle("active");
-    });
+    /************** SEMESTER TEMPLATE **************/
+    let semesterIndex = 0;
 
-    // Optional: Close menu on link click
-    document.querySelectorAll('.sidebar a').forEach(link => {
-      link.addEventListener('click', () => {
-        hamburger.classList.remove("active");
-        sidebar.classList.remove("active");
-      });
-});
-    let semesterCount = 0;
-
-    function addSemester() {
-      semesterCount++;
-      const container = document.getElementById('semesters-container');
-      const semesterDiv = document.createElement('div');
-      semesterDiv.className = 'semester';
-      semesterDiv.id = `semester-${semesterCount}`;
-      semesterDiv.innerHTML = `
-        <div class="semester-title">Semester ${semesterCount}</div>
-        <div class="actions">
-          <button class="add-btn" style="margin-bottom:30px;" onclick="addRow(${semesterCount})">+ Add Course</button>
-          <button class="delete-btn" style="margin-bottom:30px;" onclick="deleteRow(${semesterCount})">Delete Last</button>
-          <button class="save-btn" style="margin-bottom:30px;" onclick="saveResults(${semesterCount})">Save Semester</button>
-          <button class="compare-btn" onclick="compareWithLastSemester(${semesterCount})">Compare with Last Semester</button>
+    function createSemester() {
+      semesterIndex++;
+      const wrap = document.createElement('section');
+      wrap.className = 'panel';
+      wrap.dataset.aos = 'fade-up';
+      wrap.id = `sem-${semesterIndex}`;
+      wrap.innerHTML = `
+        <h2>Semester ${semesterIndex}</h2>
+        <div class="controls">
+          <button class="btn add" data-action="add-course">+ Add Course</button>
+          <button class="btn del" data-action="delete-course">Delete Last</button>
+          <button class="btn save" data-action="save">Save Semester</button>
+          <button class="btn compare" data-action="compare">Compare with Last</button>
         </div>
-        <table class="grades-table" style="margin-bottom:100px; margin-top:30px;" id="gradesTable-${semesterCount}">
-          <thead>
-            <tr>
-              <th>Course</th>
-              <th>Units</th>
-              <th>Grade</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><input type="text" placeholder="e.g. MTH101" /></td>
-              <td><input type="tel" inputmode="numeric" pattern="[0-9]*" placeholder="e.g. 3" /></td>
-              <td>
-                <select>
-                  <option value="5">A</option>
-                  <option value="4">B</option>
-                  <option value="3">C</option>
-                  <option value="2">D</option>
-                  <option value="1">E</option>
-                  <option value="0">F</option>
-                </select>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <button class="calculate-btn" onclick="calculateGPA(${semesterCount})">Calculate GPA for Semester ${semesterCount}</button>
-        <div class="result" id="result-${semesterCount}" style="display: none;"></div>
+
+        <div class="grid-header">
+          <div>Course</div>
+          <div>Units</div>
+          <div>Grade</div>
+          <div><span class="sr">Remove</span></div>
+        </div>
+        <div class="rows"></div>
+
+        <button class="btn calc" data-action="calc-gpa">Calculate GPA for Semester ${semesterIndex}</button>
+        <p class="subtle" id="gpa-${semesterIndex}">GPA: •  Units: 0  •  Points: 0 
+•  Red dash for delete</p>
       `;
-      container.appendChild(semesterDiv);
+      addCourseRow(wrap); // start with one row
+      return wrap;
     }
 
-    function addRow(semesterId) {
-      const table = document.getElementById(`gradesTable-${semesterId}`).getElementsByTagName('tbody')[0];
-      const newRow = table.insertRow();
-      newRow.innerHTML = `
-        <td><input type="text" placeholder="e.g. CHM101" /></td>
-        <td><input type="tel" inputmode="numeric" pattern="[0-9]*" placeholder="e.g. 3" /></td>
-        <td>
-          <select>
-            <option value="5">A</option>
-            <option value="4">B</option>
-            <option value="3">C</option>
-            <option value="2">D</option>
-            <option value="1">E</option>
-            <option value="0">F</option>
-          </select>
-        </td>
+    function courseRowTemplate(){
+      const row = document.createElement('div');
+      row.className = 'row';
+      row.innerHTML = `
+        <input class="field" placeholder="e.g. MTH101" />
+        <input class="field" type="number" min="0" placeholder="e.g. 3" />
+        <select class="field">${gradeOptions}</select>
+        <button class="remove-mini" type="button">–</button>
       `;
+      return row;
     }
 
-    function deleteRow(semesterId) {
-      const table = document.getElementById(`gradesTable-${semesterId}`).getElementsByTagName('tbody')[0];
-      if (table.rows.length > 1) {
-        table.deleteRow(table.rows.length - 1);
-      }
+    function addCourseRow(semEl){
+      const rows = $('.rows', semEl);
+      rows.appendChild(courseRowTemplate());
     }
 
-    function calculateGPA(semesterId) {
-      const table = document.getElementById(`gradesTable-${semesterId}`).getElementsByTagName('tbody')[0];
-      let totalUnits = 0;
-      let totalPoints = 0;
+    function deleteCourseRow(semEl){
+      const rows = $('.rows', semEl);
+      if(rows.children.length>1) rows.lastElementChild.remove();
+    }
 
-      for (let i = 0; i < table.rows.length; i++) {
-        const units = parseFloat(table.rows[i].cells[1].children[0].value);
-        const gradePoint = parseFloat(table.rows[i].cells[2].children[0].value);
-
-        if (isNaN(units) || units < 0 || isNaN(gradePoint)) {
-          alert("Please enter valid numeric units for all courses in Semester " + semesterId);
-          return;
+    /************** GPA / CGPA **************/
+    function computeSemester(semEl){
+      const rows = $$('.row', semEl);
+      let units=0, points=0;
+      rows.forEach(r=>{
+        const u = parseFloat(r.children[1].value);
+        const gp = parseFloat(r.children[2].value);
+        if(!isNaN(u) && !isNaN(gp)){
+          units += u;
+          points += u*gp;
         }
-        totalUnits += units;
-        totalPoints += units * gradePoint;
-      }
-
-      const resultBox = document.getElementById(`result-${semesterId}`);
-      if (totalUnits === 0) {
-        resultBox.innerText = "Please enter valid unit values.";
-        resultBox.style.display = "block";
-        return;
-      }
-
-      const gpa = totalPoints / totalUnits;
-      resultBox.innerHTML = `
-        Total Units: <b>${totalUnits}</b><br/>
-        Total Points: <b>${totalPoints}</b><br/>
-        GPA: <b>${gpa.toFixed(2)}</b>
-      `;
-      resultBox.style.display = "block";
-
-      // Store GPA for comparison
-      localStorage.setItem(`semester-${semesterId}-gpa`, gpa.toFixed(2));
-      calculateCGPA();
-    }
-     
-/*  
-     function calculateCGPA() {
-      let totalAllUnits = 0;
-      let totalAllPoints = 0;
-
-      for (let sem = 1; sem <= semesterCount; sem++) {
-        const table = document.getElementById(`gradesTable-${sem}`);
-        if (!table) continue;
-
-        const tbody = table.getElementsByTagName('tbody')[0];
-        for (let i = 0; i < tbody.rows.length; i++) {
-          const units = parseFloat(tbody.rows[i].cells[1].children[0].value);
-          const gradePoint = parseFloat(tbody.rows[i].cells[2].children[0].value);
-
-          if (!isNaN(units) && !isNaN(gradePoint)) {
-            totalAllUnits += units;
-            totalAllPoints += units * gradePoint;
-          }
-        }
-      }
-
-      const cgpaBox = document.getElementById("cgpaResult");
-      if (totalAllUnits === 0) {
-        cgpaBox.style.display = "none";
-        return;
-      }
-
-      const cgpa = totalAllPoints / totalAllUnits;
-      cgpaBox.innerHTML = `
-        Total Units (All Semesters): <b>${totalAllUnits}</b><br/>
-        Total Points (All Semesters): <b>${totalAllPoints}</b><br/>
-        <hr style="margin: 10px 0;" />
-        CGPA: <b>${cgpa.toFixed(2)}</b>
-      `;
-      cgpaBox.style.display = "block";
+      });
+      const gpa = units>0 ? (points/units) : 0;
+      return {units, points, gpa};
     }
 
- */
-
-function calculateCGPA() {
-  let totalAllUnits = 0;
-  let totalAllPoints = 0;
-
-  for (let sem = 1; sem <= semesterCount; sem++) {
-    const table = document.getElementById(`gradesTable-${sem}`);
-    if (!table) continue;
-
-    const tbody = table.getElementsByTagName('tbody')[0];
-    for (let i = 0; i < tbody.rows.length; i++) {
-      const units = parseFloat(tbody.rows[i].cells[1].children[0].value);
-      const gradePoint = parseFloat(tbody.rows[i].cells[2].children[0].value);
-
-      if (!isNaN(units) && !isNaN(gradePoint)) {
-        totalAllUnits += units;
-        totalAllPoints += units * gradePoint;
-      }
+    function computeAll(){
+      const semEls = $$('#semesters .panel');
+      let totalU=0,totalP=0;
+      const breakdown = semEls.map((s,idx)=>{
+        const r = computeSemester(s);
+        totalU += r.units; totalP += r.points;
+        return {idx: idx+1, ...r};
+      });
+      const cgpa = totalU>0 ? (totalP/totalU) : 0;
+      return {totalU,totalP,cgpa,breakdown};
     }
-  }
 
-  const cgpaBox = document.getElementById("cgpaResult");
-  if (totalAllUnits === 0) {
-    cgpaBox.style.display = "none";
-    return;
-  }
-
-  const cgpa = totalAllPoints / totalAllUnits;
-
-  // Determine color based on CGPA
-  let bgColor = "";
-  let textColor = "white";
-  let classText = "";
-
-  if (cgpa >= 4.5) {
-    bgColor = "#2ecc71"; // Green
-    classText = "First Class🥇";
-  } else if (cgpa >= 3.5) {
-    bgColor = "#f1c40f"; // Yellow
-    textColor = "#000";
-    classText = "Second Class Upper🥈";
-  } else if (cgpa >= 2.4) {
-    bgColor = "#e67e22"; // Orange
-    classText = "Second Class Lower🥉";
-  } else if (cgpa >= 1.5) {
-    bgColor = "#e74c3c"; // Red
-    classText = "Third Class";
-  } else {
-    bgColor = "#7f8c8d"; // Gray
-    classText = "Pass / Probation🛂";
-  }
-
-  // Apply styles and display result
-  cgpaBox.innerHTML = `
-    Total Units (All Semesters): <b>${totalAllUnits}</b><br/>
-    Total Points (All Semesters): <b>${totalAllPoints}</b><br/>
-    <hr style="margin: 10px 0;" />
-    CGPA: <b>${cgpa.toFixed(2)}</b><br/>
-    Classification: <b>${classText}</b>
-  `;
-  cgpaBox.style.backgroundColor = bgColor;
-  cgpaBox.style.color = textColor;
-  cgpaBox.style.padding = "20px";
-  cgpaBox.style.borderRadius = "8px";
-  cgpaBox.style.transition = "all 0.3s ease";
-  cgpaBox.style.display = "block";
+function classify(cgpa) {
+  if (cgpa >= 4.5) return "First Class";
+  if (cgpa >= 3.5) return "Second Class Upper";
+  if (cgpa >= 2.4) return "Second Class Lower";
+  if (cgpa >= 1.5) return "Third Class";
+  if (cgpa >= 1.0) return "Pass";
+  return "Fail";
 }
 
+    /************** RENDER MODAL **************/
+    function showResults(){
+      const {totalU,totalP,cgpa,breakdown} = computeAll();
 
-
-
-    function saveResults(semesterId) {
-      const table = document.getElementById(`gradesTable-${semesterId}`).getElementsByTagName('tbody')[0];
-      const courses = [];
-      for (let i = 0; i < table.rows.length; i++) {
-        const course = table.rows[i].cells[0].children[0].value;
-        const units = table.rows[i].cells[1].children[0].value;
-        const grade = table.rows[i].cells[2].children[0].value;
-        if (course && units && !isNaN(parseFloat(units))) {
-          courses.push({ course, units: parseFloat(units), grade: parseFloat(grade) });
-        }
-      }
-      if (courses.length === 0) {
-        alert("No valid courses to save for Semester " + semesterId);
-        return;
-      }
-      localStorage.setItem(`semester-${semesterId}-courses`, JSON.stringify(courses));
-      const resultBox = document.getElementById(`result-${semesterId}`);
-      resultBox.innerText = "Results saved successfully!";
-      resultBox.style.display = "block";
-      setTimeout(() => calculateGPA(semesterId), 2000); // Restore GPA display
-    }
-
-    function saveAllResults() {
-      for (let sem = 1; sem <= semesterCount; sem++) {
-        if (document.getElementById(`gradesTable-${sem}`)) {
-          saveResults(sem);
-        }
-      }
-      alert("All semester results saved!");
-    }
-
-    function loadResults() {
-      for (let sem = 1; sem <= semesterCount; sem++) {
-        const courses = JSON.parse(localStorage.getItem(`semester-${sem}-courses`) || '[]');
-        if (courses.length > 0 && document.getElementById(`gradesTable-${sem}`)) {
-          const table = document.getElementById(`gradesTable-${sem}`).getElementsByTagName('tbody')[0];
-          table.innerHTML = '';
-          courses.forEach(course => {
-            const newRow = table.insertRow();
-            newRow.innerHTML = `
-              <td><input type="text" value="${course.course}" /></td>
-              <td><input type="tel" inputmode="numeric" pattern="[0-9]*" value="${course.units}" /></td>
-              <td>
-                <select>
-                  <option value="5" ${course.grade === 5 ? 'selected' : ''}>A</option>
-                  <option value="4" ${course.grade === 4 ? 'selected' : ''}>B</option>
-                  <option value="3" ${course.grade === 3 ? 'selected' : ''}>C</option>
-                  <option value="2" ${course.grade === 2 ? 'selected' : ''}>D</option>
-                  <option value="1" ${course.grade === 1 ? 'selected' : ''}>E</option>
-                  <option value="0" ${course.grade === 0 ? 'selected' : ''}>F</option>
-                </select>
-              </td>
-            `;
-          });
-          calculateGPA(sem);
-        }
-      }
-    }
-
-    function compareWithLastSemester(semesterId) {
-      const currentGPA = parseFloat(localStorage.getItem(`semester-${semesterId}-gpa`) || '0');
-      const previousSemesterId = semesterId - 1;
-      const previousGPA = parseFloat(localStorage.getItem(`semester-${previousSemesterId}-gpa`) || '0');
-      const resultBox = document.getElementById(`result-${semesterId}`);
-
-      if (previousGPA === 0 && previousSemesterId > 0) {
-        resultBox.innerText = `No data available for Semester ${previousSemesterId} to compare.`;
-      } else if (currentGPA === 0) {
-        resultBox.innerText = "Please calculate GPA for this semester first.";
-      } else {
-        const difference = (currentGPA - previousGPA).toFixed(2);
-        const message = difference > 0 ? "improved" : difference < 0 ? "decreased" : "remained the same";
-        resultBox.innerHTML = `
-          Semester ${semesterId} GPA: <b>${currentGPA}</b><br/>
-          Semester ${previousSemesterId} GPA: <b>${previousGPA}</b><br/>
-          Difference: <b>${difference}</b> (${message})
+      // big numbers
+      $('#cgpaNumber').textContent = (Math.round(cgpa*100)/100).toFixed(2);
+      $('#sumUnits').textContent = totalU.toFixed(0);
+      $('#sumPoints').textContent = totalP.toFixed(0);
+      $('#semCount').textContent = breakdown.length;
+      $('#classResult').textContent = classify(cgpa);
+      // per semester cards
+      const box = $('#semBreakdown');
+      box.innerHTML = '';
+      breakdown.forEach(({idx,units,points,gpa})=>{
+        const card = document.createElement('div');
+        card.className = 'sem-card';
+        card.innerHTML = `
+          <div class="sem-title">Semester ${idx}</div>
+          <div class="sem-meta">Units: <strong>${units.toFixed(0)}</strong></div>
+          <div class="sem-meta">Points: <strong>${points.toFixed(0)}</strong></div>
+          <div class="sem-meta">GPA: <strong>${(Math.round(gpa*100)/100).toFixed(2)}</strong></div>
         `;
-      }
-      resultBox.style.display = "block";
-      setTimeout(() => calculateGPA(semesterId), 3000); // Restore GPA display
+        box.appendChild(card);
+      });
+
+      // open modal
+      document.body.style.overflow = 'hidden';
+      $('#overlay').classList.add('show');
+    }
+    function closeResults(){
+      document.body.style.overflow = '';
+      $('#overlay').classList.remove('show');
     }
 
-    function exportToPDF() {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
-      doc.setFontSize(16);
-      doc.text("FUOYE CGPA Calculator Results", 20, 20);
-      doc.setFontSize(12);
-      let y = 30;
+    /************** THEME **************/
+/*
+    const themeToggle = $('#themeToggle');
+    function setTheme(light){
+      document.body.classList.toggle('light', light);
 
-      for (let sem = 1; sem <= semesterCount; sem++) {
-        const table = document.getElementById(`gradesTable-${sem}`);
-        if (!table) continue;
+      localStorage.setItem('cgpa-theme', light ? 'light' : 'dark');
+    }
+    // init theme
+    setTheme(localStorage.getItem('cgpa-theme')==='light');
+    themeToggle.addEventListener('click', ()=> setTheme(!document.body.classList.contains('light')));
+*/
 
-        doc.text(`Semester ${sem}`, 20, y);
-        y += 10;
+/************** THEME **************/
+const themeToggle = $('#themeToggle');
+const logo = $('#logo'); // your logo image <img id="logo">
 
-        const tbody = table.getElementsByTagName('tbody')[0];
-        let semesterData = [['Course', 'Units', 'Grade', 'Points']];
-        let totalUnits = 0;
-        let totalPoints = 0;
+function setTheme(light) {
+  document.body.classList.toggle('light', light);
 
-        for (let i = 0; i < tbody.rows.length; i++) {
-          const course = tbody.rows[i].cells[0].children[0].value || 'N/A';
-          const units = parseFloat(tbody.rows[i].cells[1].children[0].value) || 0;
-          const gradePoint = parseFloat(tbody.rows[i].cells[2].children[0].value) || 0;
-          const grade = ['F', 'E', 'D', 'C', 'B', 'A'][gradePoint] || 'N/A';
-          if (!isNaN(units) && !isNaN(gradePoint)) {
-            totalUnits += units;
-            totalPoints += units * gradePoint;
-          }
-          semesterData.push([course, units, grade, (units * gradePoint).toFixed(2)]);
+  // save in localStorage
+  localStorage.setItem('cgpa-theme', light ? 'light' : 'dark');
+
+  // ✅ update logo when theme changes
+  if (logo) {
+    logo.src = light ? 'images/Logo-light.png' : 'images/Logo-dark.jpg';
+  }
+}
+
+// init theme on page load
+setTheme(localStorage.getItem('cgpa-theme') === 'light');
+
+// toggle when button is clicked
+themeToggle.addEventListener('click', () =>
+  setTheme(!document.body.classList.contains('light'))
+);
+
+ /************** INIT APP **************/
+    const semestersWrap = $('#semesters');
+
+    function addSemester(){
+      const sem = createSemester();
+      semestersWrap.appendChild(sem);
+      AOS.refreshHard?.();
+    }
+    function removeSemester(){
+      const last = semestersWrap.lastElementChild;
+      if(last) last.remove();
+    }
+
+    // default: 2 semesters
+    addSemester();
+    addSemester();
+
+    // Global listeners
+    $('#addSemesterBtn').addEventListener('click', addSemester);
+    $('#removeSemesterBtn').addEventListener('click', removeSemester);
+    $('#calcAllBtn').addEventListener('click', showResults);
+    $('#showResultsTop').addEventListener('click', showResults);
+
+    // Modal listeners
+    $('#closeModal').addEventListener('click', closeResults);
+    $('#closeModal2').addEventListener('click', closeResults);
+    $('#overlay').addEventListener('click', (e)=> { if(e.target.id==='overlay') closeResults(); });
+
+    // Delegate per-semester buttons
+    semestersWrap.addEventListener('click', (e)=>{
+      const semEl = e.target.closest('.panel'); if(!semEl) return;
+
+      if(e.target.matches('.remove-mini')) e.target.closest('.row').remove();
+      if(e.target.dataset.action==='add-course') addCourseRow(semEl);
+      if(e.target.dataset.action==='delete-course') deleteCourseRow(semEl);
+      if(e.target.dataset.action==='calc-gpa'){
+        const {units,points,gpa} = computeSemester(semEl);
+        $(`#${'gpa-'+semEl.id.split('-')[1]}`).textContent =
+          `GPA: ${(Math.round(gpa*100)/100).toFixed(2)}  •  Units: ${units.toFixed(0)}  •  Points: ${points.toFixed(0)}`;
+      }
+      if(e.target.dataset.action==='save'){
+        const idx = semEl.id;
+        const rows = $$('.row', semEl).map(r => ({
+          course: r.children[0].value || '',
+          units: r.children[1].value || '',
+          gp: r.children[2].value || '5'
+        }));
+        localStorage.setItem(`cgpa-${idx}`, JSON.stringify(rows));
+        e.target.textContent = 'Saved ✓';
+        setTimeout(()=> e.target.textContent='Save Semester', 1200);
+      }
+      if(e.target.dataset.action==='compare'){
+        const all = computeAll().breakdown;
+        const i = [...semestersWrap.children].indexOf(semEl);
+        if(i>0){
+          const diff = (all[i].gpa - all[i-1].gpa).toFixed(2);
+          alert(`Change vs previous semester: ${diff >= 0 ? '+' : ''}${diff}`);
+        }else{
+          alert('Add another semester to compare.');
         }
+      }
+    });
 
-        doc.autoTable({
-          startY: y,
-          head: [semesterData[0]],
-          body: semesterData.slice(1),
-          theme: 'grid',
-          styles: { fontSize: 10 },
+    // Try loading any saved semesters (simple demo)
+    function tryLoad(){
+      $$('#semesters .panel').forEach(semEl=>{
+        const idx = semEl.id;
+        const raw = localStorage.getItem(`cgpa-${idx}`);
+        if(!raw) return;
+        const data = JSON.parse(raw);
+        const rowsBox = $('.rows', semEl);
+        rowsBox.innerHTML=''; // reset
+        data.forEach(d=>{
+          const row = courseRowTemplate();
+          row.children[0].value = d.course;
+          row.children[1].value = d.units;
+          row.children[2].value = d.gp;
+          rowsBox.appendChild(row);
         });
-        y = doc.lastAutoTable.finalY + 10;
-
-        const gpa = totalUnits > 0 ? (totalPoints / totalUnits).toFixed(2) : 'N/A';
-        doc.text(`Semester ${sem} GPA: ${gpa}`, 20, y);
-        y += 10;
-      }
-
-      const cgpaBox = document.getElementById("cgpaResult");
-      if (cgpaBox.style.display !== "none") {
-        doc.text(cgpaBox.innerText, 20, y);
-      }
-
-      doc.save(`FUOYE_CGPA_${new Date().toISOString().split('T')[0]}.pdf`);
+      });
     }
-
-    window.onload = () => {
-      addSemester();
-      if (localStorage.getItem('semester-1-courses')) {
-        loadResults();
-      }
-    };
+    tryLoad();
   </script>
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("service-worker.js")
+    .then(() => console.log("✅ Service Worker Registered"))
+    .catch(err => console.log("⚠️ Service Worker Failed", err));
+}
+</script>
 </body>
 </html>
- 
