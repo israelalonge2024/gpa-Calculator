@@ -260,6 +260,25 @@ opacity:0.5;
   font-size: 14px;
   white-space: pre-wrap;
 }
+	.install-btn {
+  padding: 12px 25px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.install-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+}
 </style>
 </head>
 <body>
@@ -335,7 +354,7 @@ opacity:0.5;
     </div>
   </div>
 </section>
-
+<button id="installBtn" class="install-btn" style="display:none;">📥 Install App</button>
 
 <!-- Full width slider -->
 <section class="hero-slider" aria-label="Recommended learning resources">
@@ -1115,6 +1134,27 @@ themeToggle.addEventListener('click', () =>
     tryLoad();
   </script>
 <script>
+	let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+
+  const installBtn = document.getElementById('installBtn');
+  installBtn.style.display = 'inline-block';
+
+  installBtn.addEventListener('click', () => {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then((choiceResult) => {
+      if (choiceResult.outcome === 'accepted') {
+        console.log('✅ App installed');
+      } else {
+        console.log('❌ App dismissed');
+      }
+      deferredPrompt = null;
+    });
+  });
+});
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("service-worker.js")
     .then(() => console.log("✅ Service Worker Registered"))
